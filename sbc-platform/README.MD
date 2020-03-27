@@ -53,18 +53,18 @@ Copy key from terminal to github.com Settings->SSH ang GPG keys->New SSH key
 Clone *sbc-platform* from github.com to your home directory:
 ```
 $ mkdir -p ~/src && cd ~/src
-$ git clone [this-project-link].git
+$ git clone git@github.com:GlobalLogicEdu/GL-SMARTCITY.git
 ```
 
 Init submodules
 
 ```
-$ cd ~/src/sbc-platform && git submodule update --init
+$ cd ~/src/GL-SMARTCITY/sbc-platform && git submodule update --init
 ```
 
 #### Install Gtest
 ```
-$ cd ~/src/sbc-platform/lib/gtest && mkdir -p build && cd build
+$ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gtest && mkdir -p build && cd build
 $ cmake ..
 $ make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
@@ -73,7 +73,7 @@ $ sudo make install && sudo ldconfig -v
 ### Build and install lib jansson, jwt, paho.mqtt.c
 
 ```
-$ cd ~/src/sbc-platform/lib/paho.mqtt.c/ && mkdir -p build && cd build
+$ cd ~/src/GL-SMARTCITY/sbc-platform/lib/paho.mqtt.c/ && mkdir -p build && cd build
 $ cmake -DBUILD_SHARED_LIBS=ON -DJANSSON_BUILD_SHARED_LIBS=ON \
 -DPAHO_WITH_SSL=TRUE -DPAHO_BUILD_DOCUMENTATION=FALSE \
 -DPAHO_BUILD_SAMPLES=FALSE ..
@@ -102,7 +102,7 @@ $ sudo apt-get remove gpsd && sudo apt-get autoremove
 How to install old version of gpsd library from source:
  
 ```
-$ cd ~/src/sbc-platform/lib/gpsd
+$ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd
 $ ./autogen.sh && ./configure
 $ make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
@@ -121,7 +121,7 @@ STM32F4DISCOVERY development board. It works together with GL
 starterkit.
 
 Before continue with this manual, please read file **README.md** in
-_~/src/sbc-platform/src/pits/xlgyro_ for building and flashing instructions.
+_~/src/GL-SMARTCITY/sbc-platform/src/pits/xlgyro_ for building and flashing instructions.
 
 ### Setup CloudHub
 
@@ -130,11 +130,11 @@ data transfer to the Google cloud account, prepared for you by project staff or 
 you can setup setup your own cloud. 
 
 If you want to use defaut course account, please edit this file 
-~/src/sbc-platform/src/CloudHub/conf/config.json and fill there "registry_id"
+~/src/GL-SMARTCITY/sbc-platform/src/CloudHub/conf/config.json and fill there "registry_id"
 and "project_id" fields with AirC project default settings (insert your registry id instead 
 of "registryId" and your project id instead of "project-id-123456").
 You can get this IDs from project course staff. Also staff will give you sequre keys 
-that you will need to place into ~/src/sbc-platform/src/CloudHub/certs folder. 
+that you will need to place into ~/src/GL-SMARTCITY/sbc-platform/src/CloudHub/certs folder. 
 
 For more detailed information (or if you want to setup your personal Google cloud)
 please refer to Google Cloud setup manual specially prepared by AirC project staff.
@@ -142,7 +142,7 @@ please refer to Google Cloud setup manual specially prepared by AirC project sta
 ### Build SBC and all components
 
 ```
-$ cd ~/src/sbc-platform 
+$ cd ~/src/GL-SMARTCITY/sbc-platform 
 $ ./build.sh 
 ```
 **build.sh** options: 
@@ -161,7 +161,7 @@ with STM32F4DISCOVERY, skip step 1 and step 2, start with step 3.
 ### 1 Run xlgyro
 
 Build, flash STM32F4DISCOVERY check (**README.md** in 
-_~/src/sbc-platform/src/pits/xlgyro_) and then:
+_~/src/GL-SMARTCITY/sbc-platform/src/pits/xlgyro_) and then:
 * Connect GL Starterkit USART3 TX port to your UART/USB converters' RX port
 * Connect GL Starterkit USART3 GND pin to your UART/USB converters' GND pin
 * Insert your UART/USB converter to USB port of your PC 
@@ -171,7 +171,7 @@ _~/src/sbc-platform/src/pits/xlgyro_) and then:
 Open new terminal tab and run:
 
 ```
-$ cd ~/src/sbc-platform/build/src/pits/xlgyrod
+$ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/pits/xlgyrod
 $ ./xlgyrod
 ```
 
@@ -184,7 +184,7 @@ You should see incoming signals from STM32F4DISCOVERY.
 Open new terminal tab and run:
 
 ```
-$ gpsfake -c 1 ~/src/sbc-platform/car_path_simulation.nmea
+$ gpsfake -c 1 ~/src/GL-SMARTCITY/sbc-platform/car_path_simulation.nmea
 ``` 
 
 Gpsfake will start car movement simulation according the path saved in 
@@ -196,7 +196,7 @@ using this website https://nmeagen.org
 Open new terminal tab and run:
 
 ```
-$ cd ~/src/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
+$ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
 ```
 
 ### 5 Run IC-Lib
@@ -204,7 +204,7 @@ $ cd ~/src/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
 Open new terminal tab and run:
 
 ```
-$ cd ~/src/sbc-platform/build/src/IC-Lib && ./cluster-app conf/config.json
+$ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/IC-Lib && ./cluster-app conf/config.json
 ```
 
 ### 6 Run CloudHub
@@ -212,7 +212,7 @@ $ cd ~/src/sbc-platform/build/src/IC-Lib && ./cluster-app conf/config.json
 Open new terminal tab and run:
 
 ```
-$ cd ~/src/sbc-platform/build/src/CloudHub && ./cloud_hub conf/config.json
+$ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/CloudHub && ./cloud_hub conf/config.json
 ```
 
 ## Check result
