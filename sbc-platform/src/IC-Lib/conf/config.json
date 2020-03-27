@@ -1,0 +1,14 @@
+{
+	"id": 1,
+	"bind_address": "127.0.0.1",
+	"port": 40701,
+	"scs_address": "127.0.0.1",
+	"scs_mask": "255.255.255.0",
+	"scs_port": 40882,
+	"vws_address": "127.0.0.1",
+	"vws_control_messages_port": 40881,
+	"vws_register_port": 40880,
+	"vws_heartbeat_port": 40879,
+	"hub_address": "127.0.0.1",
+	"hub_port": 40883
+}

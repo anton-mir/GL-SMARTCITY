@@ -1,0 +1,16 @@
+#GeographicLib config
+GeographicLib-1.49/include/GeographicLib/Config.h
+# Cmake files for json parse lib
+libjsonparse/CMakeCache.txt
+libjsonparse/CMakeFiles/
+libjsonparse/cmake_install.cmake
+libjsonparse/install_manifest.txt
+libjsonparse/Makefile 
+
+# Json parse binaries
+libjsonparse/libjsonparse.a
+libjsonparse/main
+libjsonparse/build
+
+# ThirdParty out folder
+out/

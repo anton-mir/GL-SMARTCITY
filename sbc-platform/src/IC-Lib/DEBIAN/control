@@ -1,0 +1,5 @@
+Package: libcluster
+Architecture: all
+Maintainer: GlobalLogic Inc.
+Depends: libc6 (>= 2.14), libuv1 (>=1.8.0)
+Description: Library for a cluster

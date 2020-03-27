@@ -1,0 +1,12 @@
+[submodule "sbc-platform/lib/gpsd"]
+	path = sbc-platform/lib/gpsd
+	url = https://gitlab.com/gpsd/gpsd.git
+[submodule "sbc-platform/src/sbc-car"]
+	path = sbc-platform/src/sbc-car
+	url = https://github.com/anton-mir/sbc_car.git
+[submodule "sbc-platform/src/pits/xlgyrod"]
+	path = sbc-platform/src/pits/xlgyrod
+	url = https://github.com/anton-mir/xlgyrod.git
+[submodule "sbc-platform/src/pits/xlgyro"]
+	path = sbc-platform/src/pits/xlgyro
+	url = https://github.com/anton-mir/xlgyro.git

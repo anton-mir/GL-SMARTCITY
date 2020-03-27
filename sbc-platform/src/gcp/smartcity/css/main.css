@@ -1,0 +1,446 @@
+*,
+*:focus {
+  outline: none;
+}
+html,
+body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+#map {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+/*
+ * Top bar
+ */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: #445A65;
+  z-index: 20;
+}
+.top-bar .header-label {
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  left: 36px;
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.97);
+}
+.top-bar .version {
+  font-size: 16px;
+  opacity: 0.8;
+  padding-left: 10px;
+}
+.top-bar .logo-gl {
+  position: absolute;
+  top: 18px;
+  left: 10px;
+  width: 160px;
+  height: 32px;
+  background-image: url(/images/logo.svg);
+  background-repeat: no-repeat;
+}
+.logo-gl-container {
+  cursor: pointer;
+  position: relative;
+  margin-right: 26px;
+  float: right;
+  width: 180px;
+  height: 100%;
+}
+.logo-gl-container:hover ul {
+  display: block;
+}
+.logo-gl-container ul {
+  display: none;
+  position: absolute;
+  top: 64px;
+  right: 0;
+  margin: 0;
+  padding: 15px;
+  background-color: #445a65e3;
+}
+.logo-gl-container ul li {
+  color: white;
+  padding: 2px;
+  margin-left: 20px;
+}
+.logo-gl-container ul .list-label {
+  list-style: none;
+  margin-left: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+.logo-gl-container ul a,
+.logo-gl-container ul span {
+  color: white;
+  text-decoration: none;
+}
+.logo-gl-container ul a:hover {
+  text-decoration: underline;
+}
+.top-bar .display-time {
+  position: absolute;
+  top: 24px;
+  width: 160px;
+  left: calc(50vw -  80px );
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.97);
+}
+/*
+ * Traffic Lights
+ */
+.traffic-light-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 100px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.traffic-light {
+  position: relative;
+  z-index: 10;
+  background: #222;
+  background-image: linear-gradient(transparent 2%, #111 2%, transparent 3%, #111 30%);
+  width: 70px;
+  height: 180px;
+  border-radius: 20px;
+  border: solid 5px #333;
+}
+.traffic-light[state="0"] .yellow {
+  opacity: 1;
+  transition: opacity .5s;
+}
+.traffic-light[state="1"] .green {
+  opacity: 1;
+  transition: opacity .5s;
+}
+.traffic-light[state="2"] .red {
+  opacity: 1;
+  transition: opacity .5s;
+}
+.traffic-light .light {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  left: 13px;
+  opacity: 0.2;
+}
+.traffic-light .light-active {
+  opacity: 1;
+  transition: opacity .5s;
+}
+.traffic-light .red {
+  top: 15px;
+  background: red;
+  background-image: radial-gradient(brown, transparent);
+  border: dotted 2px red;
+  box-shadow: 0 0 20px #111 inset,
+      0 0 10px red;
+}
+.traffic-light .yellow {
+  top: 70px;
+  background: yellow;
+  background-image: radial-gradient(orange, transparent);
+  border: dotted 2px yellow;
+  box-shadow: 0 0 20px #111 inset,
+      0 0 10px yellow;
+}
+.traffic-light .green {
+  top: 125px;
+  background: green;
+  background-image: radial-gradient(lime, transparent);
+  border: dotted 2px lime;
+  box-shadow: 0 0 20px #111 inset,
+      0 0 10px lime;
+}
+.traffic-light-sm {
+  width: 27px;
+  height: 71px;
+  border: solid 2px #333;
+  border-radius: 8px;
+  z-index: 1;
+}
+.traffic-light-sm .light {
+  width: 15px;
+  height: 15px;
+  left: 5px;
+}
+.traffic-light-sm .red {
+  top: 5px;
+  border: dotted 1px red;
+  background-size: 2px 2px;
+  box-shadow: 0 0 10px #111 inset,
+      0 0 5px red;
+}
+.traffic-light-sm .yellow {
+  top: 27px;
+  border: dotted 1px yellow;
+  background-size: 2px 2px;
+  box-shadow: 0 0 10px #111 inset,
+      0 0 5px yellow;
+}
+.traffic-light-sm .green {
+  top: 49px;
+  border: dotted 1px lime;
+  background: #00d000;
+  background-size: 2px 2px;
+  box-shadow: 0 0 10px #111 inset,
+      0 0 5px lime;
+}
+.traffic-light-sm:after {
+  background: #222;
+  background-image: linear-gradient(-90deg, #222 0%, #444 30%, #000);
+  content: "";
+  width: 11px;
+  height: 13px;
+  margin-left: 8px;
+  position: absolute;
+  top: 73px;
+  z-index: -1;
+}
+.traffic-light-panel-container {
+  z-index: 10;
+}
+.traffic-light-panel {
+  width: 220px;
+  height: 180px;
+  margin-left: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #ffffff;
+  box-shadow: 0px 5px 10px #888888;
+}
+.traffic-light-header {
+  height: 70px;
+  display: table;
+  background-color: #445A65;
+  width: 100%;
+}
+.traffic-light-name {
+  display: table-cell;
+  line-height: 25px;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 10px;
+  margin: 0;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+}
+.traffic-light-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
+}
+.traffic-light-box {
+  position: relative;
+  width: 50%;
+}
+.box-label {
+  font-size: 14px;
+  position: absolute;
+  color: rgba(0, 0, 0, 0.5);
+}
+.box-text {
+  top: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  position: absolute;
+  color: rgba(0, 0, 0, 0.6);
+}
+/* TRUCK MARKER */
+.truckMarkerWraper {
+  z-index: 1000;
+}
+@keyframes firealert {
+  0% {
+    border-color: red;
+  }
+  100% {
+    border-color: blue;
+  }
+}
+@keyframes firealertArrow {
+  0% {
+    border-top: 20px solid #f00;
+  }
+  100% {
+    border-top: 20px solid blue;
+  }
+}
+.trucMarcker {
+  display: block;
+  transition: all .4s ease;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
+  border: 5px solid red;
+  animation-name: firealert;
+  animation-duration: .4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-direction: alternate;
+}
+.trucMarcker::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 5px;
+  top: 37px;
+  width: 0;
+  height: 0;
+  border-left: 17px solid transparent;
+  border-right: 17px solid transparent;
+  border-top: 20px solid #f00;
+  animation-name: firealertArrow;
+  animation-duration: .4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-direction: alternate;
+}
+/* gauge-panel*/
+.wrapper-gauge-panel {
+  position: absolute;
+  bottom: 0;
+  right: 70px;
+  transform: translateY(0px);
+  z-index: 10;
+  background-color: #445A65;
+  border-radius: 120px 120px 0 0;
+  box-shadow: 0px 5px 10px #888888;
+}
+.speed-panel {
+  width: 240px;
+  height: 240px;
+  float: left;
+}
+.fps-panel {
+  width: 120px;
+  height: 240px;
+  float: left;
+}
+.rpm-panel {
+  width: 240px;
+  height: 240px;
+  float: left;
+}
+.id-car-panel {
+  color: white;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 150px;
+  left: 260px;
+  font-size: larger;
+}
+#id-car-place {
+  margin-top: -35px;
+}
+.car-folow-wrp {
+  width: 90px;
+  height: 90px;
+  margin-top: -15px;
+  border-radius: 50%;
+  position: relative;
+  background-color: silver;
+  box-shadow: 1px 1px black;
+}
+#id-car-folow {
+  text-decoration: none;
+  color: white;
+  background-color: #AF2020;
+  border-width: 0;
+  box-shadow: 2px 2px 0px #701010;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+#id-car-folow.disabled {
+  cursor: wait;
+}
+#id-car-folow.pushed {
+  box-shadow: inset 2px 2px 0px #701010;
+  background-color: #AF2020;
+  color: white;
+  top: 6px;
+  left: 6px;
+}
+#id-car-folow.unfolow {
+  box-shadow: 2px 2px 0px #705010;
+  background-color: orange;
+  top: 4px;
+  left: 4px;
+  color: black;
+  font-size: 10px;
+}
+#id-car-unfolow {
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  margin-left: -60px;
+  top: -38px;
+  opacity: 1;
+  padding: 10px 0px;
+  width: 120px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  background-color: orange;
+  transition: all .4s linear;
+}
+#id-car-unfolow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -34px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  border-left: 17px solid transparent;
+  border-right: 17px solid orange;
+  border-top: 39px solid transparent;
+}
+#id-car-unfolow::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 130px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  border-left: 17px solid orange;
+  border-right: 17px solid transparent;
+  border-top: 39px solid transparent;
+}
+#id-car-unfolow.disabled {
+  top: 0;
+  opacity: 0;
+}

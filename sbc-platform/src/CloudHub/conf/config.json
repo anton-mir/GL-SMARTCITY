@@ -1,0 +1,132 @@
+{
+    "mqtt_msg_parallel_instances" : 15,
+    "mqtt_msg_operation_timeout" : 50,
+    "mqtt_ligths_operation_timeout" : 2,
+    "data_processos_group_intervel" : {
+	"sec" : 0,
+	"msec": 500
+    },
+    "data_lights_group_intervel" : {
+	"sec" : 1,
+	"msec": 500
+    },
+    "data_processor_store_every_pkt" : 90,
+    "data_processor_ligths_store_every_pkt" : 1,
+    "mqtt_group_param" : {
+	"registry_id" : "registryId",
+	"project_id" : "project-id-123456",
+	"root_cert" : "certs/roots.pem",
+	"region" : "europe-west1",
+	"objects" : [
+	{
+	    "mqtt_id" : "tl-000",
+	    "sbc_id" : 2001,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-001",
+	    "sbc_id" : 2002,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-002",
+	    "sbc_id" : 2003,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-003",
+	    "sbc_id" : 2004,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-004",
+	    "sbc_id" : 2005,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-005",
+	    "sbc_id" : 2006,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-006",
+	    "sbc_id" : 2007,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-007",
+	    "sbc_id" : 2008,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-008",
+	    "sbc_id" : 2009,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "tl-009",
+	    "sbc_id" : 2010,
+	    "type" : "lights",
+	    "rhost" : "192.168.0.101",
+	    "rport" : 40884,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "mqtt-001",
+	    "sbc_id" : 1,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "mqtt-002",
+	    "sbc_id" : 2,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	},
+	{
+	    "mqtt_id" : "mqtt-003",
+	    "sbc_id" : 3,
+	    "key_path" : "certs/rsa_private.pem",
+	    "key_algorytm" : "RS256"
+	}
+	]
+    }
+
+}

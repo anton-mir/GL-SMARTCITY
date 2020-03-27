@@ -1,0 +1,7 @@
+/build
+/debug
+*.user
+/docker/packages/*
+.idea/
+cmake-build-debug/
+lib/gtest/build/

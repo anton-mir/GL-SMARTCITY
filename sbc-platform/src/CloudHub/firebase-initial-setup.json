@@ -1,0 +1,240 @@
+{
+  "car-locations" : {
+    "mqtt-001" : {
+      "id" : "mqtt-001",
+      "last_updated" : "2019-11-14T15:58:20.757Z",
+      "msec" : 46,
+      "name" : "RPi Car",
+      "skin" : "car_white",
+      "state" : {
+        "acceleration" : 0,
+        "course" : 309.4976,
+        "gear" : "1",
+        "laneId" : 0,
+        "latitude" : 50.451008322,
+        "longitude" : 30.525890073,
+        "pit" : 0,
+        "rpm" : 0,
+        "special" : false,
+        "speed" : 1
+      },
+      "status" : "Moving",
+      "timestp" : 1573747099,
+      "type" : "Car"
+    },
+    "mqtt-002" : {
+      "id" : "mqtt-002",
+      "msec" : 310,
+      "name" : "SBC Car",
+      "skin" : "car_yellow",
+      "state" : {
+        "acceleration" : 4.43,
+        "course" : 35.81,
+        "gear" : "4",
+        "latitude" : 50.437489,
+        "longitude" : 30.492608,
+        "rpm" : 1026,
+        "speed" : 51.83
+      },
+      "status" : "Moving",
+      "timestp" : 1556218253,
+      "type" : "Car"
+    }
+  },
+  "map" : {
+    "centerLatitude" : 50.435998,
+    "centerLongitude" : 30.4894897,
+    "defaultLatitude" : 50.435998,
+    "defaultLongitude" : 30.4894897,
+    "defaultZoom" : 15.5,
+    "zoom" : 15.5
+  },
+  "pit-locations" : {
+    "data" : {
+      "38" : {
+        "lat" : 50.452001534,
+        "lng" : 30.524008301
+      },
+      "39" : {
+        "lat" : 50.452001534,
+        "lng" : 30.524008301
+      },
+      "40" : {
+        "lat" : 50.452467485,
+        "lng" : 30.527078787
+      },
+      "41" : {
+        "lat" : 50.452200832,
+        "lng" : 30.527076313
+      }
+    },
+    "last_added_id" : 41
+  },
+  "routs" : {
+    "rout1" : {
+      "point-001" : {
+        "lat" : 50.43243,
+        "lng" : 30.477155
+      },
+      "point-002" : {
+        "lat" : 50.4326065,
+        "lng" : 30.4794767
+      },
+      "point-003" : {
+        "lat" : 50.4333728,
+        "lng" : 30.4835401
+      },
+      "point-004" : {
+        "lat" : 50.4345141,
+        "lng" : 30.4862362
+      },
+      "point-005" : {
+        "lat" : 50.4360389,
+        "lng" : 30.4887832
+      },
+      "point-006" : {
+        "lat" : 50.437036,
+        "lng" : 30.491659
+      },
+      "point-007" : {
+        "lat" : 50.438133,
+        "lng" : 30.493369
+      },
+      "point-008" : {
+        "lat" : 50.4403022,
+        "lng" : 30.4975625
+      },
+      "point-009" : {
+        "lat" : 50.4411259,
+        "lng" : 30.4995993
+      },
+      "point-010" : {
+        "lat" : 50.441968,
+        "lng" : 30.50148
+      },
+      "routColor" : "#ff0000"
+    },
+    "rout2" : {
+      "point-001" : {
+        "lat" : 50.43243,
+        "lng" : 30.477155
+      },
+      "point-002" : {
+        "lat" : 50.4326065,
+        "lng" : 30.4794767
+      },
+      "point-003" : {
+        "lat" : 50.4333728,
+        "lng" : 30.4835401
+      },
+      "point-004" : {
+        "lat" : 50.4345141,
+        "lng" : 30.4862362
+      },
+      "point-005" : {
+        "lat" : 50.4360389,
+        "lng" : 30.4887832
+      },
+      "point-006" : {
+        "lat" : 50.437036,
+        "lng" : 30.491659
+      },
+      "point-007" : {
+        "lat" : 50.438133,
+        "lng" : 30.493369
+      },
+      "point-008" : {
+        "lat" : 50.4403022,
+        "lng" : 30.4975625
+      },
+      "point-009" : {
+        "lat" : 50.442814,
+        "lng" : 30.495038
+      },
+      "point-010" : {
+        "lat" : 50.444513,
+        "lng" : 30.498823
+      },
+      "point-011" : {
+        "lat" : 50.441968,
+        "lng" : 30.50148
+      },
+      "routColor" : "#00ff00"
+    }
+  },
+  "tl-focused" : {
+    "id" : 3
+  },
+  "traffic-lights" : {
+    "tl-000" : {
+      "address" : "Липківського,33 Солом'янське РУ ГУ ДСНС України у м. Києві",
+      "id" : 1,
+      "latitude" : 50.43243,
+      "longitude" : 30.477155,
+      "state" : 1
+    },
+    "tl-001" : {
+      "address" : "Липківського-Кавказька",
+      "id" : 1,
+      "latitude" : 50.4326065,
+      "longitude" : 30.4794767,
+      "state" : 1
+    },
+    "tl-002" : {
+      "address" : "Липківського-Стадіонна",
+      "id" : 2,
+      "latitude" : 50.4333728,
+      "longitude" : 30.4835401,
+      "state" : 1
+    },
+    "tl-003" : {
+      "address" : "Липківського,16",
+      "id" : 3,
+      "latitude" : 50.4345141,
+      "longitude" : 30.4862362,
+      "state" : 1
+    },
+    "tl-004" : {
+      "address" : "Липківського-Кудряшова",
+      "id" : 4,
+      "latitude" : 50.4360389,
+      "longitude" : 30.4887832,
+      "state" : 1
+    },
+    "tl-005" : {
+      "address" : "Липківського-Кірпи",
+      "id" : 5,
+      "latitude" : 50.437036,
+      "longitude" : 30.491659,
+      "state" : 1
+    },
+    "tl-006" : {
+      "address" : "Толстого,28",
+      "id" : 6,
+      "latitude" : 50.438133,
+      "longitude" : 30.493369,
+      "state" : 1
+    },
+    "tl-007" : {
+      "address" : "Толстого-Жилянська",
+      "id" : 7,
+      "latitude" : 50.4403022,
+      "longitude" : 30.4975625,
+      "state" : 1
+    },
+    "tl-008" : {
+      "address" : "Толстого-Саксаганського",
+      "id" : 8,
+      "latitude" : 50.4411259,
+      "longitude" : 30.4995993,
+      "state" : 1
+    },
+    "tl-009" : {
+      "address" : "Ботанічний сад ім. акад. О. В. Фоміна",
+      "id" : 9,
+      "latitude" : 50.441968,
+      "longitude" : 30.50148,
+      "state" : 1
+    }
+  }
+}
