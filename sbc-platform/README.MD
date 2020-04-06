@@ -103,6 +103,7 @@ How to install old version of gpsd library from source:
  
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd
+$ git checkout -b gpsd_2_95 9cd56c55 
 $ ./autogen.sh && ./configure
 $ make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
