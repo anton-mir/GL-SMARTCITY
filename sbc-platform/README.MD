@@ -218,7 +218,7 @@ $ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/CloudHub && ./cloud_hub conf/conf
 
 ## Check result
 
-[Open Google Cloud](https://reflected-flame-250912.firebaseapp.com)
+[Open Google Cloud Firebase app at https://potent-shade-266308.firebaseapp.com](https://potent-shade-266308.firebaseapp.com/)
 
 The car should be driving along the path. 
 
