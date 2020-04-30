@@ -53,7 +53,7 @@ Copy key from terminal to github.com Settings->SSH ang GPG keys->New SSH key
 Clone *sbc-platform* from github.com to your home directory:
 ```
 $ mkdir -p ~/src && cd ~/src
-$ git clone git@github.com:GlobalLogicEdu/GL-SMARTCITY.git
+$ git clone git@github.com:anton-mir/GL-SMARTCITY.git
 ```
 
 Init submodules
