@@ -13,16 +13,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: print_workspace_path
-      run: echo $GITHUB_WORKSPACE && pwd
-    - name: add_ssh_key
-      run: mkdir -p ~/.ssh && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtHqQSsHNz+vAXrFXXMNQK5FMvAmEcQCKoRSLTYIjHZFJQ5nEVl6g4TRDB24mdgqAPCtFi2P19Yw9XtDWQIKpxSQnCtvcYyr8HN6aY0ZOa7hWOKtPEa/Ppwb7vWX88o8ZYyoK0pFDURXEXrpHODxFtP97rFSfTJhv88+e7RZ+bkG1oUcMHKBs9p3d/emsLhi843hE+O3jGtbF8oUaBxFidf82e9VYuKJr/yrfPUhIGTJr5mf2cJQI05HwI4cGzEQABg3JdZ9waCDjM8iQlQV7BzrGWVQWpEmT03frRrQ83mz6gO0gjKulf6X/71f4FD/A30vDfEQ/UwWh5ORyX6yQ3 anton@anton-VirtualBox" > ~/.ssh/id_rsa.pub && echo -e "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEArR6kErBzc/rwF6xV1zDUCuRTLwJhHEAiqEUi02CIx2RSUOZx\nFZeoOE0QwduJnYKgDwrRYtj9fWMPV7Q1kCCqcUkJwrb3GMq/BzemmNGTmu4VjirT\nxGvz6cG+71l/PKPGWMqCtKRQ1EVxF66Rzg8RbT/e6xUn0yYb/PPnu0Wfm5BtaFHD\nBygbPad3f3prC4YvON4RPjt4xrWxfKFGgcRYnX/NnvVWLiia/8q3z1ISBkya+Zn9\nnCUCNOR8COHBsxEAAYNyXWfcGgg4zPIkJUFewc6xllUFqRJk9N360a0PN5s+oDtI\nIyrpX+l/+9X+BQ/wN9Lw3xEP1MFoeTkcl+skNwIDAQABAoIBAHjd97eEsla7UH12\nuMfxM1oXZ2xewOY0cP4CpvnlYBm2FTKecT2eELieNaDjYgUyegWGjAHzdafhTYjy\nLKNf6yAE2mezznjktNKZLBtt1xxINYx4ojl1FWqS9netiIQR5B2B5hew0S4i/X6H\nRw0SwBwCh+ShdJia9td4gsXhKjo1SYIBUdZ9oj5I+FKq5hv60/X5MxrUt+a9/xci\nd6PeZr+Py0qt+3E1RB7mqact5W9HBVl5kFDNofkWiyopCyCgXMyahnuRISWDC9mP\nvGQpCQsxpFipQfchnMgTJPzW2YYd1XVjw00M94Q9W7qfYBZgI6H7EZgSVFb+BeLf\n0MDw06ECgYEA3ps8whb4f+DKZCLEnMkfD/qMMKBw/ZAf//xaei7LAaC0HsNEb19S\n+S0wDkgkQFf+xdTCUFxDg3V+pVWP/U1frrF0gR1h3RDTRrKy3xwoh9S/HM0REEFB\nnH+ugKRl2dnlm0EBEiyuYrJccSzijWWfeHhDcyJ4TmJU/nm9kyuLqHMCgYEAxxb2\nriKFRZUQJ1OmmwnvFAyV/qwGfPCA7+8L+BXjgUvZNOueP15UEb30YPxLOO8F8iUj\ntmlzgZ6QZzlOBcfxHSP5cNMJe8PUPGY6ZwIhBhQZI80bFCzev5YER1pZ/nxlQMtW\nF4WlqBV6FIPqzwKUYDFvYPvXgXTTx8koZhTtWC0CgYEAlTmhkEbPzQHHCzuXa7cT\nYKXHpq1XMVOVcAgeKvwFUJEHTfv+e15+g9V7+ob37j5O5xWKMU64X367KGBkRxzA\nQJ5rCEbHHOezihgu+ouoy+2dM9RwVOI59oxNUaVjNZfxaJM6AZH8UONaPvAk6z6t\nmZedN6hq17jpWzIHGIo/c+sCgYAQ/+j4XYI7usqyUPY87tA3SgvUvyOer3qTAjpn\naJcQh0V4u1W723YaPboMPf6+UcqULo+qF78BJmT2K3J6E+SGtHesJpj8tG/+6Eu8\nV/Yx6q1q3SyewGYUvd6HqTNeA4kxyysCvyqx+4N9FPaLzpCU1iPIiDiSmUMsIAUP\nEmJh0QKBgDl10y0Uv/kgH2sxfL2vZ5rVGAOjSLKfFwDogXSpggVgqqlQog+O5qcD\ntHbCgttWcJqzcXNCZVRvjAFwCOf0hiWFLF6DJ8C8iqfjJ1s1T86fsxYr6Lm8yBWH\nBuLFp7Gqm1WGgBraWGT5G5ptxxsEGhQ/QqJLN3XDMX+ubpMNqJQl\n-----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa && sudo chmod 600 ~/.ssh/id_rsa && sudo chmod 600 ~/.ssh/id_rsa.pub && eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa
+    - uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: init_submodules
+      run: git submodule update --init
     - name: setup_dependencies
       run: sudo apt-get install --yes autoconf automake autotools-dev build-essential doxygen freeglut3 freeglut3-dev gcc git libagg-dev libcairo2-dev libfreetype6-dev libmarisa-dev libpangocairo-1.0-0 libpango1.0-dev libprotobuf-dev libqt5svg5-dev libtool libxml2-dev make pkg-config protobuf-compiler subversion libgoogle-glog-dev qtbase5-dev libqt5gui5 qttools5-dev-tools qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev
     - name: setup_cmake
       run: sudo snap install cmake --channel=3.16/stable --classic
-    - name: init_submodules
-      run: git submodule update --init
     - name: install_gtest
       run: cd $GITHUB_WORKSPACE/sbc-platform/lib/gtest && mkdir -p build && cd build && cmake .. && make -j"$(nproc)" && sudo make install && sudo ldconfig -v
     - name: install_mqtt
