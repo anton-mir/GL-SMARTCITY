@@ -19,7 +19,7 @@ jobs:
     - name: init_submodules
       run: git submodule update --init
     - name: setup_dependencies
-      run: sudo apt-get install --yes autoconf automake autotools-dev build-essential doxygen freeglut3 freeglut3-dev gcc git libagg-dev libcairo2-dev libfreetype6-dev libmarisa-dev libpangocairo-1.0-0 libpango1.0-dev libprotobuf-dev libqt5svg5-dev libtool libxml2-dev make pkg-config protobuf-compiler subversion libgoogle-glog-dev qtbase5-dev libqt5gui5 qttools5-dev-tools qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev
+      run: sudo apt-get update && sudo apt-get install --yes autoconf automake autotools-dev build-essential doxygen freeglut3 freeglut3-dev gcc git libagg-dev libcairo2-dev libfreetype6-dev libmarisa-dev libpangocairo-1.0-0 libpango1.0-dev libprotobuf-dev libqt5svg5-dev libtool libxml2-dev make pkg-config protobuf-compiler subversion libgoogle-glog-dev qtbase5-dev libqt5gui5 qttools5-dev-tools qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev
     - name: setup_cmake
       run: sudo snap install cmake --channel=3.16/stable --classic
     - name: install_gtest
