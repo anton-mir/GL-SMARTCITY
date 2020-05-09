@@ -1,0 +1,34 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: init_submodules
+      run: git submodule update --init
+    - name: setup_dependencies
+      run: sudo apt-get install --yes autoconf automake autotools-dev build-essential doxygen freeglut3 freeglut3-dev gcc git libagg-dev libcairo2-dev libfreetype6-dev libmarisa-dev libpangocairo-1.0-0 libpango1.0-dev libprotobuf-dev libqt5svg5-dev libtool libxml2-dev make pkg-config protobuf-compiler subversion libgoogle-glog-dev qtbase5-dev libqt5gui5 qttools5-dev-tools qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev
+    - name: setup_cmake
+      run: sudo snap install cmake --channel=3.16/stable --classic
+    - name: install_gtest
+      run: cd $GITHUB_WORKSPACE/sbc-platform/lib/gtest && mkdir -p build && cd build && cmake .. && make -j"$(nproc)" && sudo make install && sudo ldconfig -v
+    - name: install_mqtt
+      run: cd $GITHUB_WORKSPACE/sbc-platform/lib/paho.mqtt.c/ && mkdir -p build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DJANSSON_BUILD_SHARED_LIBS=ON -DPAHO_WITH_SSL=TRUE -DPAHO_BUILD_DOCUMENTATION=FALSE -DPAHO_BUILD_SAMPLES=FALSE .. && make -j"$(nproc)" && sudo make install && sudo ldconfig -v
+    - name: gpsd_uninstall
+      run: sudo apt-get remove gpsd && sudo apt-get autoremove
+    - name: gpsd_install_old
+      run: cd $GITHUB_WORKSPACE/sbc-platform/lib/gpsd && git checkout -b gpsd_2_95 9cd56c55 && ./autogen.sh && ./configure && make -j"$(nproc)" && sudo make install && sudo ldconfig -v
+    - name: run_build
+      run: cd $GITHUB_WORKSPACE/sbc-platform && ./build.sh
