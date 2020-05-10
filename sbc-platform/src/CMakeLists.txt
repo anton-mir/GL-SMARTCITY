@@ -30,4 +30,5 @@ add_subdirectory(CloudHub)
 add_subdirectory(IC-Lib)
 add_subdirectory(pits/xlgyrod)
 add_subdirectory(sbc-car)
+add_subdirectory(pits/xlgyro_fake)
 
