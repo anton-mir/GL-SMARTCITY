@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <ncurses.h>
+#include <stdlib.h>
 #define DATA_BUF_SIZE               (1024)
 #define DATA_BUFS_NUM               (2)
 #define PACKET_PREAMBULE            (0xAA55)
