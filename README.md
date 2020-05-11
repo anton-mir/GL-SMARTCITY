@@ -21,7 +21,7 @@ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger box
 or
 
 ```
-d ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger car
+cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger car
 ```
 
 If there are no arguments or this one is invalid the program will send a message to stderr and close this module.
