@@ -15,7 +15,9 @@ Two json sets of data were created: For vehicle and for stable device.
 The user can choose a car or a box object will be tracked adding the argument "car" or "box" when he runs sbc-car module.
 
 Example:
+```
 cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger <car/box>
+```
 
 If there are no arguments or this one is invalid the program will send a message to stderr and close this module.
 The next file was changed:
