@@ -7,7 +7,11 @@ socat -d -d pty pty
 Take PTY from socat
 
 Open new terminal tab and run:
-./xlgyro_fake_input PTY
+/xlgyrod --tty PTY(output)
 
-Example:
-./xlgyro_fake_input /dev/pts/4
+### 3 Run xlgyro
+Open new terminal tab and run:
+./xlgyro_fake_input PTY(input)
+
+
+
