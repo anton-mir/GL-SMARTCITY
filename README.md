@@ -12,4 +12,11 @@ Two json sets of data were created: For vehicle and for stable device.
 /sbc-platform/src/IC-Lib/libcluster/cluster.cpp - definition of "state_parse" function and cluster_state struct
 ```
 
+The user can choose a car or a box object will be tracked adding the argument "car" or "box" when he runs sbc-car module. If there are no arguments or this one is invalid the program will send a message to stderr and close this module.
+The next file was changed:
+```
+/sbc-platform/src/sbc-car/src/logger/main.c
+```
+
+
 
