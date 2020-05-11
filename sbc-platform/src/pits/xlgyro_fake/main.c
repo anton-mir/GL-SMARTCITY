@@ -317,7 +317,7 @@ int main(int argc, char * argv[])
     Close_Port();
     }
     }else{
-    printf("Example: ./a.out /dev/ttyUSB0\n When \"/dev/ttyUSB0\" - any port\n");    
+    printf("Example: ./xlgyro_fake_input /dev/ttyUSB0\n When \"/dev/ttyUSB0\" - any port\n");    
     }
 }
 
