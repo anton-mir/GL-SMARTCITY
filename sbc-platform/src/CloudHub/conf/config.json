@@ -13,8 +13,8 @@
     "data_processor_store_every_pkt" : 90,
     "data_processor_ligths_store_every_pkt" : 1,
     "mqtt_group_param" : {
-	"registry_id" : "registryId",
-	"project_id" : "project-id-123456",
+	"registry_id" : "airc-gl",
+	"project_id" : "potent-shade-266308",
 	"root_cert" : "certs/roots.pem",
 	"region" : "europe-west1",
 	"objects" : [
