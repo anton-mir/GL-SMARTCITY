@@ -13,8 +13,12 @@
 #define PACKET_PREAMBULE            (0xAA55)
 #define TX_BUF_SIZE                 (1024 * 6)
 #define FIELD_SIZEOF(t, f)          (sizeof(((t*)0)->f))
-#define LSM9DS1_SLIDING_WINDOW_SIZE             (32)
 #define LSM9DS1_I2C_WRITE_BUFFER_SIZE           (32)
+#define DATA_PACKET_LEN_NO_CRC(itms)  ( \
+                                            FIELD_SIZEOF(DATA_PACKET_S, preambule1) + \
+                                            FIELD_SIZEOF(DATA_PACKET_S, preambule2) + \
+                                            FIELD_SIZEOF(DATA_PACKET_S, readySamplesNum) + \
+                                            sizeof(RAW_DATA_S) * itms * 2 )
 typedef enum
 {
     E_X_AXIS = 0,
@@ -22,10 +26,12 @@ typedef enum
     E_Z_AXIS,
     E_AXIS_COUNT
 } AXISES;
+
 typedef struct RAW_DATA_STRUCT
 {
     int16_t rawData[E_AXIS_COUNT];
 } RAW_DATA_S;
+
 typedef struct __attribute__((packed, aligned(1))) DATA_PACKET_STRUCT
 {
     uint16_t preambule1;
@@ -37,20 +43,29 @@ typedef struct __attribute__((packed, aligned(1))) DATA_PACKET_STRUCT
         RAW_DATA_S gValue;
     } bufs[DATA_BUF_SIZE];
 } DATA_PACKET_S;
+
 typedef struct __attribute__((packed, aligned(1))) CIRCULAR_BUF_STRUCT
 {
     uint32_t activeBufIdx;
     DATA_PACKET_S payload[DATA_BUFS_NUM];
 } CIRCULAR_BUF_S;
-CIRCULAR_BUF_S data = { 0 };
-#define DATA_PACKET_LEN_NO_CRC(itms)  ( \
-                                            FIELD_SIZEOF(DATA_PACKET_S, preambule1) + \
-                                            FIELD_SIZEOF(DATA_PACKET_S, preambule2) + \
-                                            FIELD_SIZEOF(DATA_PACKET_S, readySamplesNum) + \
-                                            sizeof(RAW_DATA_S) * itms * 2 )
+
+
 typedef void (*RAW_DATA_APPEND_FP)(RAW_DATA_S *pAccelValue, RAW_DATA_S *pgyroValue);
-uint8_t txBuf[TX_BUF_SIZE] = { 0 };
-int fd;/*File Descriptor*/
+
+static uint8_t txBuf[TX_BUF_SIZE] = { 0 };
+static int fd;/*File Descriptor*/
+static CIRCULAR_BUF_S data = { 0 };
+
+void DataBufValuesAppend(RAW_DATA_S *pAccelValue, RAW_DATA_S *pGyroValue);
+static bool Open_Port(char *port);
+static void Close_Port();
+static void send (uint8_t *pData, uint16_t Size);
+static void dataBufSend(CIRCULAR_BUF_S *pData);
+void LSM9DS1_AccelReadRawData(RAW_DATA_S *pRawData);
+void  LSM9DS1_GyroReadRawData(RAW_DATA_S *pRawData);
+static uint32_t LSM9DS1_PollDataBlocking(RAW_DATA_APPEND_FP fpDataAppendCallback);
+
 void DataBufValuesAppend(RAW_DATA_S *pAccelValue, RAW_DATA_S *pGyroValue)
 {
     const uint32_t idx = data.activeBufIdx;
@@ -139,9 +154,11 @@ static bool Open_Port(char *port){
     return 0;
 
 }
+
 static void Close_Port(){
     close(fd);/* Close the Serial port */
 }
+
 static void send (uint8_t *pData, uint16_t Size){
 
     /*------------------------------- Write data to serial port -----------------------------*/
@@ -154,6 +171,7 @@ static void send (uint8_t *pData, uint16_t Size){
 
 
 }
+
 static void dataBufSend(CIRCULAR_BUF_S *pData)
 {
     const uint32_t idx = pData->activeBufIdx;
@@ -189,6 +207,7 @@ static void dataBufSend(CIRCULAR_BUF_S *pData)
         return ;
     }
 }
+
 void LSM9DS1_AccelReadRawData(RAW_DATA_S *pRawData)
 {
     uint8_t i2cBuf[LSM9DS1_I2C_WRITE_BUFFER_SIZE];
@@ -207,6 +226,7 @@ void LSM9DS1_AccelReadRawData(RAW_DATA_S *pRawData)
     }while(0);
 
 }
+
 void  LSM9DS1_GyroReadRawData(RAW_DATA_S *pRawData)
 {
     uint8_t i2cBuf[LSM9DS1_I2C_WRITE_BUFFER_SIZE];
@@ -263,7 +283,7 @@ static uint32_t LSM9DS1_PollDataBlocking(RAW_DATA_APPEND_FP fpDataAppendCallback
 int main(int argc, char * argv[])
 {
     if(argc==2){
-    if(Open_Port(argv[1])==0){
+        if(Open_Port(argv[1])==0){
             while(1){
                 (void)LSM9DS1_PollDataBlocking(DataBufValuesAppend);
                 dataBufSend(&data);
