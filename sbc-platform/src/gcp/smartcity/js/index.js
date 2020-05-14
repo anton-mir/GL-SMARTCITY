@@ -1,13 +1,13 @@
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBXqk1pJFeMUl3uWl9PGw5BhHSLynhg1sQ",
-  authDomain: "potent-shade-266308.firebaseapp.com",
-  databaseURL: "https://potent-shade-266308.firebaseio.com",
-  projectId: "potent-shade-266308",
-  storageBucket: "potent-shade-266308.appspot.com",
-  messagingSenderId: "513828959026",
-  appId: "1:513828959026:web:857752c3c9b4d3ae00dd2b",
-  measurementId: "G-GY4M654G1N"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: ""
 };
 
 const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) => {
