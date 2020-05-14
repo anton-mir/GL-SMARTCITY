@@ -1,11 +1,13 @@
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAItpmL1bmb_2nEl-JLF4Jr3TV-fTPCUa0',
-  authDomain: 'smartcity-235305.firebaseapp.com',
-  databaseURL: 'https://smartcity-dev.firebaseio.com/',
-  projectId: 'smartcity-235305',
-  storageBucket: 'smartcity-235305.appspot.com',
-  messagingSenderId: '1067909827520'
+  apiKey: "AIzaSyBXqk1pJFeMUl3uWl9PGw5BhHSLynhg1sQ",
+  authDomain: "potent-shade-266308.firebaseapp.com",
+  databaseURL: "https://potent-shade-266308.firebaseio.com",
+  projectId: "potent-shade-266308",
+  storageBucket: "potent-shade-266308.appspot.com",
+  messagingSenderId: "513828959026",
+  appId: "1:513828959026:web:857752c3c9b4d3ae00dd2b",
+  measurementId: "G-GY4M654G1N"
 };
 
 const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) => {
@@ -147,7 +149,38 @@ class RoutManager {
   }
 
 }
+class PitManager {
+  constructor(map) {
+    this.map = map;
+  }
 
+  add (location, id) {
+    const latLng = new google.maps.LatLng(location);
+    const pit = createHTMLMarker({
+      latlng: latLng,
+      map: this.map,
+      html: '<div class="pitMarcker" style="background-image: url(../images/pit_icon.png);"></div>',
+      dY: 63,
+
+    });
+  }
+}
+class ParkingManager {
+  constructor(map) {
+    this.map = map;
+  }
+
+  add (location, id) {
+    const parkinglatLng = new google.maps.LatLng(location);
+    const parking = createHTMLMarker({
+      latlng: parkinglatLng,
+      map: this.map,
+      html: '<div class="parkingMarcker" style="background-image: url(../images/parking.png);"></div>',
+      dY: 65,
+
+    });
+  }
+}
 class TrafficLightManager {
   constructor(map) {
     this.map = map;
@@ -296,7 +329,8 @@ function initMap() {
   const tlManager = new TrafficLightManager(map);
   const trucksManager = new TruckManager(map);
   const routManager = new RoutManager(map);
-
+  const pitManager = new PitManager(map);
+  const parkingManager = new ParkingManager(map);
   // Show trafick drow
   // const trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
@@ -389,6 +423,36 @@ function initMap() {
 
     if (tl.id === tlManager.focused) changeTrafficLightColor('main', tl.state, true); 
   });
+  //-------------Pit DB-----------------------------------------
+  db.ref('pit-locations/data').once('value', snapshot => {
+    const val = snapshot.val();
+    const pitLocation = Object.values(val);
+    pitLocation.forEach(pit => {
+      pitManager.add(
+        {
+          lat: pit.lat,
+          lng: pit.lng
+        },
+      );
+    });
+  });
+
+  //---------------PARKING DB------------------------
+  db.ref('parking-locations/data').once('value', snapshot => {
+    const val = snapshot.val();
+    const parkingLocation = Object.values(val);
+    parkingLocation.forEach(parking => {
+      parkingManager.add(
+        {
+          lat: parking.lat,
+          lng: parking.lng
+        },
+      );
+    });
+  });
+
+
+
 
   //-------------TRUCKS LIST------------------------------------
 
@@ -431,6 +495,7 @@ function initMap() {
     }
     
   });
+
 
 //--------------POLINE ROUTE ---------
   db.ref('routs').once('value', snapshot => {
@@ -574,4 +639,5 @@ function calculateAndDisplayRoute(start, end, directionsService, directionsDispl
     }
   });
 }
+
 

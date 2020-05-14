@@ -263,6 +263,29 @@ body {
   position: absolute;
   color: rgba(0, 0, 0, 0.6);
 }
+/* Pit marker*/
+.pitMarcker {
+  display: block;
+  transition: all .4s ease;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+/*parkin marker*/
+.parkingMarcker {
+  display: block;
+  transition: all .4s ease;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+ 
+}
 /* TRUCK MARKER */
 .truckMarkerWraper {
   z-index: 1000;
@@ -444,3 +467,4 @@ body {
   top: 0;
   opacity: 0;
 }
+
