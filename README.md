@@ -12,7 +12,7 @@ Two json sets of data were created: For vehicle and for stable device.
 /sbc-platform/src/IC-Lib/libcluster/cluster.cpp - definition of "state_parse" function and cluster_state struct
 ```
 
-The user can choose a car or a box object will be tracked. By default there is used car without air quality test, however you can add argument ```box``` or ```car``` when you run sbc-car module.
+The user can choose a car or a box object will be tracked. By default there is used <car> without the air quality test, however you can add argument ```box``` or ```car``` and you will see also the quality of the air when you run sbc-car module.
 
 Example:
 ```
