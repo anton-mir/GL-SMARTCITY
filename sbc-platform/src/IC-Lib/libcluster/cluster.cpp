@@ -49,6 +49,18 @@ struct cluster_ctx {
 
 static std::shared_ptr<cluster_ctx> ctx;
 
+static struct cluster_state {
+    double acceleration;
+    double course;
+    double latitude;
+    double longitude;
+    double speed;
+    double rpm;
+    int laneId;
+    int gear;
+    bool special;
+} state;
+
 static struct cluster_state_car {
     double acceleration;
     double course;
@@ -92,6 +104,21 @@ static void state_parse(const json& j)
     std::lock_guard<std::mutex> lock(state_mutex);
     if(j["type"] == "Car") {
         try {
+            state_node.at("acceleration").get_to(state.acceleration);
+            state_node.at("course").get_to(state.course);
+            state_node.at("latitude").get_to(state.latitude);
+            state_node.at("longitude").get_to(state.longitude);
+            state_node.at("speed").get_to(state.speed);
+            state_node.at("rpm").get_to(state.rpm);
+            state_node.at("special").get_to(state.special);
+            state_node.at("gear").get_to(state.gear);
+            state_node.at("laneid").get_to(state.laneId);
+        } catch (std::exception &ex) {
+            log_error("Problem with read package from eserver: %s", ex.what());
+        }
+    }
+    else if(j["type"] == "AirC_Car") {
+        try {
             state_node.at("acceleration").get_to(state_car.acceleration);
             state_node.at("course").get_to(state_car.course);
             state_node.at("latitude").get_to(state_car.latitude);
@@ -109,7 +136,7 @@ static void state_parse(const json& j)
             log_error("Problem with read package from eserver: %s", ex.what());
         }
     }
-    else if(j["type"] == "Box") {
+    else if(j["type"] == "AirC_Box") {
         try {
             state_node.at("temp").get_to(state_box.temp);
             state_node.at("humidity").get_to(state_box.humidity);
