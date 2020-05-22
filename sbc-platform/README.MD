@@ -17,7 +17,7 @@ qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev \
 qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects \
 qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev \
 libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev \
-fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev
+fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev libncurses5-dev
 ```
 
 #### Install Cmake 3.16+
@@ -196,8 +196,18 @@ using this website https://nmeagen.org
 
 Open new terminal tab and run:
 
+For car without information about air:
 ```
-$ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
+cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
+```
+For car AirC device:
+```
+cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device car
+```
+For box AirC divice:
+
+```
+cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device box
 ```
 
 ### 5 Run IC-Lib
