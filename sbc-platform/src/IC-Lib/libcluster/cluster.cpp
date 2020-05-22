@@ -56,7 +56,7 @@ static struct cluster_state {
     double longitude;
     double speed;
     double rpm;
-    int laneId;
+    int laneid;
     int gear;
     bool special;
 } state;
@@ -72,7 +72,7 @@ static struct cluster_state_car {
     double humidity;
     double co2;
     double tvoc;
-    int laneId;
+    int laneid;
     int gear;
     bool special;
 } state_car;
@@ -112,7 +112,7 @@ static void state_parse(const json& j)
             state_node.at("rpm").get_to(state.rpm);
             state_node.at("special").get_to(state.special);
             state_node.at("gear").get_to(state.gear);
-            state_node.at("laneid").get_to(state.laneId);
+            state_node.at("laneid").get_to(state.laneid);
         } catch (std::exception &ex) {
             log_error("Problem with read package from eserver: %s", ex.what());
         }
@@ -127,7 +127,7 @@ static void state_parse(const json& j)
             state_node.at("rpm").get_to(state_car.rpm);
             state_node.at("special").get_to(state_car.special);
             state_node.at("gear").get_to(state_car.gear);
-            state_node.at("laneid").get_to(state_car.laneId);
+            state_node.at("laneid").get_to(state_car.laneid);
             state_node.at("temp").get_to(state_car.temp);
             state_node.at("humidity").get_to(state_car.humidity);
             state_node.at("co2").get_to(state_car.co2);
