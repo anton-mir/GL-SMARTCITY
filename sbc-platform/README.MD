@@ -100,6 +100,7 @@ $ sudo apt-get remove gpsd && sudo apt-get autoremove
 ```
 
 How to install old version of gpsd library from source:
+Note: If you build for Ubuntu 20, add "#include <sys/sysmacros.h>" to ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd/serial.c
  
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd
