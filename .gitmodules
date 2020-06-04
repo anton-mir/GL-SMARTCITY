@@ -10,3 +10,6 @@
 [submodule "sbc-platform/src/pits/xlgyro"]
 	path = sbc-platform/src/pits/xlgyro
 	url = https://github.com/anton-mir/xlgyro.git
+[submodule "sbc-platform/src/airc-device"]
+	path = sbc-platform/src/airc-device
+	url = git@github.com:anton-mir/airc-device.git
