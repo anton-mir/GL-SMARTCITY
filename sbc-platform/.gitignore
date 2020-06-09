@@ -5,3 +5,4 @@
 .idea/
 cmake-build-debug/
 lib/gtest/build/
+lib/gpsd/*
