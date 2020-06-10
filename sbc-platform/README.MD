@@ -65,8 +65,7 @@ $ cd ~/src/GL-SMARTCITY/sbc-platform && git submodule update --init
 #### Install Gtest
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gtest && mkdir -p build && cd build
-$ cmake ..
-$ make -j"$(nproc)"
+$ cmake .. && make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
 ```
 
@@ -100,7 +99,6 @@ $ sudo apt-get remove gpsd && sudo apt-get autoremove
 ```
 
 How to install old version of gpsd library from source:
-Note: If you build for Ubuntu 20, add "#include <sys/sysmacros.h>" to ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd/serial.c
  
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd
@@ -109,6 +107,8 @@ $ ./autogen.sh && ./configure
 $ make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
 ```
+*Note:* If you build for Ubuntu 20 or else, it might be needed to add "#include <sys/sysmacros.h>" into ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd/serial.c
+
 After install - close terminal, then open new terminal window and check gpsd version:
 
 ```
@@ -226,6 +226,19 @@ Open new terminal tab and run:
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/CloudHub && ./cloud_hub conf/config.json
 ```
+
+### Run all together
+
+Optionally, if you don't want to open many windows, you can run apps as daemons in foreground:
+
+```
+$ cd ~/src/GL-SMARTCITY/sbc-platform
+$ ./run_airc.sh
+```
+
+To stop all use *stop_aitc.sh* script. 
+
+Log files located in *~/src/GL-SMARTCITY/sbc-platform/logs* folder.
 
 ## Check result
 
