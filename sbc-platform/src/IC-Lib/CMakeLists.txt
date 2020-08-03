@@ -20,13 +20,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -DDISABLE_DEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -ggdb -O0")
 set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Don't add any postfix for debug version" FORCE)
 
-#set(LIB_V2X_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../V2X")
-
-#if(NOT ASN1_ROOT_DIR  AND "${ASN1_ROOT_DIR}" STREQUAL "")
-#    message(STATUS "Can't find V2X libraries! Try to rebuild it!")
-#    add_subdirectory(${LIB_V2X_DIR} ${CMAKE_CURRENT_BINARY_DIR}/v2x)
-#endif()
-
 if("${LIB_JSON_PARSER_ROOT_DIR}" STREQUAL "")
     set(LIB_JSON_PARSER_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/libjsonparse CACHE PATH "Path to the libjsonparse project sources" FORCE)
     add_subdirectory(${LIB_JSON_PARSER_ROOT_DIR} ${CMAKE_CURRENT_BINARY_DIR}/libjsonparse)
@@ -42,16 +35,9 @@ if("${LIB_RESTCLIENT_ROOT_DIR}" STREQUAL "")
     add_subdirectory(${LIB_RESTCLIENT_ROOT_DIR} ${CMAKE_CURRENT_BINARY_DIR}/restclient)
 endif()
 
-#if(ASN1_DEBUG)
-#    if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR "${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
-#        add_definitions(-DSTOP_GLOG=1)
-#    endif()
-#endif()
-
 link_directories(
         ${glog_BINARY_DIR}
         ${libjsonparse_BINARY_DIR}
-#        ${libasn1_BINARY_DIR}/lib
         ${restclient-cpp_BINARY_DIR})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/
@@ -59,7 +45,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/
                     ${LIB_GLOG_ROOT_DIR}/src
                     ${LIB_RESTCLIENT_ROOT_DIR}/include/
                     ${restclient-cpp_BINARY_DIR}/include/
-#                    ${ASN1_INCLUDE_DIR}
                     ${CMAKE_CURRENT_SOURCE_DIR}/libcluster
                     )
 
@@ -79,7 +64,6 @@ set(INCLUDES
     )
 
 set(LINK_DIRS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-#    ${ASN1_LIB_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}/jsonparse
     ${CMAKE_CURRENT_BINARY_DIR}/glog
     ${CMAKE_CURRENT_BINARY_DIR}/restclient
@@ -95,17 +79,14 @@ link_directories(${LINK_DIRS})
 add_definitions(-DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_ERROR_CODE_HEADER_ONLY)
 add_library(${LIBRARY_NAME} ${LIB_SOURCES} ${LIB_HEADERS})
 set_property(TARGET ${LIBRARY_NAME} PROPERTY POSITION_INDEPENDENT_CODE 1)
-#add_dependencies(${LIBRARY_NAME} asn1)
 add_dependencies(${LIBRARY_NAME} jsonparse glog restclient-cpp)
 
 set(LLIBS dl jsonparse glog m -pthread restclient-cpp)
-#        asn1
 
 target_link_libraries(${LIBRARY_NAME} ${LLIBS})
 
 list(INSERT LLIBS 0 ${LIBRARY_NAME})
 
-#Find Android log lib
 find_library(log-lib log)
 if(${log-lib})
     list(APPEND LLIBS ${log-lib})
