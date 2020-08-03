@@ -6,7 +6,7 @@ bash -c 'gpsfake -c 1 ~/src/GL-SMARTCITY/sbc-platform/car_path_simulation.nmea &
 sleep 1
 
 echo -en "\nRunning obdgpslogger...\n"
-bash -c 'cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger &' >> logs/obdgpslogger.log 2>> logs/obdgpslogger.err
+bash -c 'cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger -x box &' >> logs/obdgpslogger.log 2>> logs/obdgpslogger.err
 sleep 3
 
 echo -en "\nRunning car cluster...\n"

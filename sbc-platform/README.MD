@@ -17,7 +17,8 @@ qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev \
 qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects \
 qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev \
 libssl-dev libcanberra-gtk* python-gps libjansson-dev libftdi-dev \
-fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev libncurses5-dev
+fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev libncurses5-dev libtinfo-dev \
+scons python-gi python-gi-cairo g++ python-gobject libgtk-3-dev pps-tools
 ```
 
 #### Install Cmake 3.16+
@@ -80,41 +81,34 @@ $ make -j"$(nproc)"
 $ sudo make install && sudo ldconfig -v
 ```
 
-### Build and install gpsd
+### Build and install gpsd from source
 
-Check do you have installed gpsd and it's version:
+Check do you have installed gpsd:
 
 ```
-$ apt list --installed | grep gpsd
 $ gpsd -V
 ```
 
-If the version is higher then 2.95 - you need to uninstall it because our 
-implementation works only with old API.
-
-How to uninstall:
+If you have it, please uninstall:
 
 ```
 $ sudo apt-get remove gpsd && sudo apt-get autoremove
 ```
 
-How to install old version of gpsd library from source:
+Install gpsd from source:
  
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd
-$ git checkout -b gpsd_2_95 9cd56c55 
-$ ./autogen.sh && ./configure
-$ make -j"$(nproc)"
-$ sudo make install && sudo ldconfig -v
+$ git checkout release-3.20 
+$ scons && scons check && sudo scons udev-install
 ```
-*Note:* If you build for Ubuntu 20 or else, it might be needed to add "#include <sys/sysmacros.h>" into ~/src/GL-SMARTCITY/sbc-platform/lib/gpsd/serial.c
 
 After install - close terminal, then open new terminal window and check gpsd version:
 
 ```
 $ gpsd -V
 ```
-You should see *gpsd: 2.95*
+You should see *gpsd: 3.20 (revision 3.20)*
 
 ### Build pits/xlgyro for GL starterkit
 
@@ -197,16 +191,6 @@ using this website https://nmeagen.org
 
 Open new terminal tab and run:
 
-For car without information about air:
-```
-cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger
-```
-For car AirC device:
-```
-cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device car
-```
-For box AirC divice:
-
 ```
 cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device box
 ```
@@ -242,7 +226,8 @@ Log files located in *~/src/GL-SMARTCITY/sbc-platform/logs* folder.
 
 ## Check result
 
-Open Google Cloud Firebase app at [https://potent-shade-266308.firebaseapp.com](https://potent-shade-266308.firebaseapp.com/)
+Open Google Cloud Firebase app at [https://potent-shade-266308.firebaseapp.com](https://potent-shade-266308.firebaseapp.com/) 
+(or use your previously set up cloud account).
 
 The car should be driving along the path. 
 
