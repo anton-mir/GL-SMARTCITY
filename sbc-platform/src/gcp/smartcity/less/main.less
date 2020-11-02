@@ -29,10 +29,7 @@ body {
 @top-bar-height: 64px;
 
 .top-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   height: @top-bar-height;
   background-color: #445A65;
   z-index: 20;
@@ -119,6 +116,186 @@ body {
   left: ~"calc(50vw - " @top-bar-display-time-width/2 ~")";
   font-size: 18px;
   color: rgba(100%,100%,100%,97%);
+}
+
+#content {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: ~"calc(100vh - " @top-bar-height ~")";
+}
+
+.side-bar {
+  flex: 1;
+  position: relative;
+  background: white;
+  border-right: 2px solid #445A65;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.side-bar-heading {
+  text-align: center;
+  color: #111;
+}
+
+.side-bar-label {
+  display: flex;
+  font-size: 18px;
+  margin: 0 15px 10px 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #999999;
+  &.extended {
+    cursor: pointer;
+    flex-wrap: wrap;
+    &:hover {
+      opacity: .8;
+    }
+
+    &.active {
+      .extern-info {
+        visibility: visible;
+        height: auto;
+      }
+    }
+
+    .side-bar-label-ext {
+      flex: 1;
+      color: #747474;
+      text-align: center;
+    }
+
+    .extern-info {
+      flex-basis: 100%;
+      visibility: collapse;
+      height: 0;
+
+      .extern-info-label {  
+        display: flex;
+
+        .extern-info-label-space {
+          flex: 1;
+        }
+    
+        .extern-info-label-name {
+          flex: 5;
+          color: #111;
+          font-weight: bold;
+        }
+        .extern-info-label-val {
+          flex: 5;
+          color: #333;
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  &.text {
+    flex-direction: column;
+
+    .side-bar-label-val {
+      text-align: left;
+    }
+  }
+
+  .side-bar-label-name {
+    flex: 5;
+    color: #111;
+    font-weight: bold;
+  }
+  
+  .side-bar-label-val {
+    flex: 5;
+    color: #333;
+    text-align: right;
+  }
+}
+
+#map-wrapper {
+  flex: 4;
+  position: relative;
+}
+
+.air-probe {
+  width: 60px;
+  height: 60px;
+
+  .air-probe-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  
+  .air-probe-top {
+    width: 56px;
+    height: 36px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    margin-bottom: -1px;
+    text-align: center;
+    
+    .air-probe-value {
+      line-height: 40px;
+      font-weight: 600;
+      font-size: 2em;
+    }
+  }
+  
+  &.good {
+    .air-probe-top {
+      background: lime;
+    }
+  }
+  
+  &.normal {
+    .air-probe-top {
+      background: yellow;
+    }
+  }
+  
+  &.bad {
+    .air-probe-top {
+      background: red;
+    }
+  }
+  
+  .air-probe-bottom {
+    position: relative;
+    height: 20px;
+    
+    .air-probe-stick {
+      z-index: 1;
+      position: absolute;
+      width: 4px;
+      height: 100%;
+      border-radius: 4px;
+      background: #333;
+      left: 50%;
+      margin-left: -2px;
+    }
+    
+    .air-probe-base {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: transparent;
+      border: 2px solid #555;
+      border-radius: 8px;
+      bottom: -4px;
+      left: 50%;
+      margin-left: -6px;
+    }
+  }
+}
+
+/*
+ * Markers
+ */
+
+.marker-wrapper {
+  z-index: 104;
 }
 
 /*
