@@ -1,58 +1,209 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Smart City</title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-    </head>
-    <body>
 
-        <div class="top-bar">
-            <span class="header-label">Smart City <span class="version">v1.1</span></span>
-            <div class="logo-gl-container">
-                <span class="logo-gl"></span>
-                <ul>
-                    <li class="list-label"><span>Contributors</span></li>
-                    <li><a href="javascript:;">sabina.bakun@globallogic.com</a></li>
-                    <li><a href="javascript:;">andriyvoron@gmail.com</a> and <a href="javascript:;">andrii.tatarynov@globallogic.com</a></li>
-                    <li><a href="javascript:;">iaroslav.shkuratenko@globallogic.com</a></li>
-                    <li><a href="javascript:;">oleksandr.kholiavko@globallogic.com</a></li>
-                    <li><a href="javascript:;">valerii.chernous@globallogic.com</a></li>
-                    <li><a href="javascript:;">vitalii.ostapenko@globallogic.com</a></li>
-                    <li><a href="javascript:;">dmytro.panchenko@globallogic.com</a></li>
-                    <li><a href="javascript:;">igor.tanyenkov@globallogic.com</a></li>
-                    <li><a href="javascript:;">viktoriia.taraniuk@globallogic.com</a></li>
-                    <li><a href="javascript:;">denys.vasyliev@globallogic.com</a></li>
-                </ul> 
-            </div>
+<head>
+    <title>Smart City</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+<body>
+    <div class="top-bar">
+        <span class="header-label">Smart City <span class="version">v1.1</span></span>
+        <div class="logo-gl-container">
+            <span class="logo-gl"></span>
+            <ul>
+                <li class="list-label"><span>Contributors</span></li>
+                <li><a href="javascript:;">sabina.bakun@globallogic.com</a></li>
+                <li><a href="javascript:;">andriyvoron@gmail.com</a> and <a
+                        href="javascript:;">andrii.tatarynov@globallogic.com</a></li>
+                <li><a href="javascript:;">iaroslav.shkuratenko@globallogic.com</a></li>
+                <li><a href="javascript:;">oleksandr.kholiavko@globallogic.com</a></li>
+                <li><a href="javascript:;">valerii.chernous@globallogic.com</a></li>
+                <li><a href="javascript:;">vitalii.ostapenko@globallogic.com</a></li>
+                <li><a href="javascript:;">dmytro.panchenko@globallogic.com</a></li>
+                <li><a href="javascript:;">igor.tanyenkov@globallogic.com</a></li>
+                <li><a href="javascript:;">viktoriia.taraniuk@globallogic.com</a></li>
+                <li><a href="javascript:;">denys.vasyliev@globallogic.com</a></li>
+            </ul>
         </div>
-        <div class="traffic-light-container">
-            <div id="main" class="traffic-light" state="0">
-                <div class="light red"></div>
-                <div class="light yellow"></div>
-                <div class="light green"></div>
-            </div>
-            <div class="traffic-light-panel-container"></div>
-        </div>
-        <div class="wrapper-gauge-panel" id="gauge_pannel_div">
-            <!-- <div id="id-car-unfolow" class="disabled">UNFOLLOW ME</div> -->
-            <div id="speed_div" class="speed-panel" ></div>
-            <div id="fps_div" class="fps-panel" ></div>
-            <div id="idcar_div" class="id-car-panel">
-                <p id="id-car-place">mqtt-</p>
-                <div class="car-folow-wrp">
-                    <button id="id-car-folow" class='disabled' data-state="" data-target="">FOLLOW ME</button>
+    </div>
+    <div id="content">
+        <div class="side-bar" id="side-bar">
+            <h3 class="side-bar-heading">Air Probe Info</h3>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">ID:</span>
+                <span class="side-bar-label-val" id="id-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Type:</span>
+                <span class="side-bar-label-val" id="type-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Status:</span>
+                <span class="side-bar-label-val" id="status-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">MessageID:</span>
+                <span class="side-bar-label-val" id="message_id-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Date:</span>
+                <span class="side-bar-label-val" id="date-label-val">-</span>
+            </label>
+            <label class="side-bar-label text">
+                <span class="side-bar-label-name">Description:</span>
+                <span class="side-bar-label-val" id="description-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Lat:</span>
+                <span class="side-bar-label-val" id="latitude-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Long:</span>
+                <span class="side-bar-label-val" id="longitude-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Alt:</span>
+                <span class="side-bar-label-val" id="altitude-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Temp 1:</span>
+                <span class="side-bar-label-val" id="temp1-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Temp 2:</span>
+                <span class="side-bar-label-val" id="temp2-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Hum:</span>
+                <span class="side-bar-label-val" id="humidity-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">Pressure:</span>
+                <span class="side-bar-label-val" id="pressure-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">TVOC:</span>
+                <span class="side-bar-label-val" id="tvoc-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">CO2:</span>
+                <span class="side-bar-label-val" id="co2-label-val">-</span>
+            </label>
+            <label class="side-bar-label extended">
+                <span class="side-bar-label-ext" id="co-ext">-></span>
+                <span class="side-bar-label-name">CO:</span>
+                <span class="side-bar-label-val" id="co-label-val">-</span>
+                <div class="extern-info">
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Temp:</span>
+                        <span class="extern-info-label-val" id="co-temp-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Hum:</span>
+                        <span class="extern-info-label-val" id="co-hum-label-val">-</span>
+                    </label>
                 </div>
-            </div>
-            <div id="rpm_div" class="rpm-panel" ></div>
+            </label>
+            <label class="side-bar-label extended">
+                <span class="side-bar-label-ext" id="no2-ext">-></span>
+                <span class="side-bar-label-name">NO2:</span>
+                <span class="side-bar-label-val" id="no2-label-val">-</span>
+                <div class="extern-info">
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Temp:</span>
+                        <span class="extern-info-label-val" id="no2-temp-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Hum:</span>
+                        <span class="extern-info-label-val" id="no2-hum-label-val">-</span>
+                    </label>
+                </div>
+            </label>
+            <label class="side-bar-label extended">
+                <span class="side-bar-label-ext" id="so2-ext">-></span>
+                <span class="side-bar-label-name">SO2:</span>
+                <span class="side-bar-label-val" id="so2-label-val">-</span>
+                <div class="extern-info">
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Temp:</span>
+                        <span class="extern-info-label-val" id="so2-temp-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Hum:</span>
+                        <span class="extern-info-label-val" id="so2-hum-label-val">-</span>
+                    </label>
+                </div>
+            </label>
+            <label class="side-bar-label extended">
+                <span class="side-bar-label-ext" id="o3-ext">-></span>
+                <span class="side-bar-label-name">O3:</span>
+                <span class="side-bar-label-val" id="o3-label-val">-</span>
+                <div class="extern-info">
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Temp:</span>
+                        <span class="extern-info-label-val" id="o3-temp-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Hum:</span>
+                        <span class="extern-info-label-val" id="o3-hum-label-val">-</span>
+                    </label>
+                </div>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">HCHO:</span>
+                <span class="side-bar-label-val" id="hcho-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">PM2.5:</span>
+                <span class="side-bar-label-val" id="pm2_5-label-val">-</span>
+            </label>
+            <label class="side-bar-label">
+                <span class="side-bar-label-name">PM10:</span>
+                <span class="side-bar-label-val" id="pm10-label-val">-</span>
+            </label>
         </div>
-        <div id="map"></div>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!-- Gauge panel script -->
-        <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-        <script src="js/index.js"></script>
-        <!-- TODO: Add Google Maps API Key here -->
-        <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=API_KEY_INSERT_HERE&callback=initMap&libraries=geometry">
+        <div id="map-wrapper">
+            <div class="traffic-light-container">
+                <div id="main" class="traffic-light" state="0">
+                    <div class="light red"></div>
+                    <div class="light yellow"></div>
+                    <div class="light green"></div>
+                </div>
+                <div class="traffic-light-panel-container"></div>
+            </div>
+            <div class="wrapper-gauge-panel" id="gauge_pannel_div">
+                <!-- <div id="id-car-unfolow" class="disabled">UNFOLLOW ME</div> -->
+                <div id="speed_div" class="speed-panel"></div>
+                <div id="fps_div" class="fps-panel"></div>
+                <div id="idcar_div" class="id-car-panel">
+                    <p id="id-car-place">mqtt-</p>
+                    <div class="car-folow-wrp">
+                        <button id="id-car-folow" class='disabled' data-state="" data-target="">FOLLOW ME</button>
+                    </div>
+                </div>
+                <div id="rpm_div" class="rpm-panel"></div>
+            </div>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!-- Gauge panel script -->
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script src="js/index.js"></script>
+    <!-- TODO: Add Google Maps API Key here -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=[APP_KEY]&callback=initMap&libraries=geometry">
     </script>
-    </body>
+</body>
+
 </html>

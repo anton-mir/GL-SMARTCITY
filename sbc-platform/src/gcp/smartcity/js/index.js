@@ -29,6 +29,9 @@ const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) =
       google.maps.event.addDomListener(this.div, 'click', event => {
         google.maps.event.trigger(this, 'click');
       });
+      if (typeof args.events !== 'undefined') {
+        this.div.addEventListener('click', event => args.events.click(event))
+      }
     }
   
     appendDivToOverlay() {
@@ -159,9 +162,9 @@ class PitManager {
     const pit = createHTMLMarker({
       latlng: latLng,
       map: this.map,
-      html: '<div class="pitMarcker" style="background-image: url(../images/pit_icon.png);"></div>',
+      html: '<div class="pitMarcker" style="background-image: url(../images/pit_icon.png); background-position:center; background-size: cover; width: 40px; height: 40px;"></div>',
       dY: 63,
-
+      classList: 'marker-wrapper',
     });
   }
 }
@@ -230,6 +233,35 @@ class PointManager {
       this.points[pnt] && this.points[pnt].setMap(null);
     });
     this.points = {};
+  }
+}
+
+class AirProbeManager {
+  constructor(map) {
+    this.map = map;
+  }
+
+  add (location, id, type, description, working_status, latitude, longitude, altitude, value) {
+    const latLng = new google.maps.LatLng(location);
+    const probe = createHTMLMarker({
+      latlng: latLng,
+      map: this.map,
+      html: `<div class="air-probe normal">
+              <div class="air-probe-overlay" data-id="`+id+`" data-type="`+type+`" data-description="`+description+`" data-working_status="`+working_status+`" data-latitude="`+latitude+`" data-longitude="`+longitude+`" data-altitude="`+altitude+`"></div>
+              <div class="air-probe-top">
+                <span class="air-probe-value">`+value+`</span>
+              </div>
+              <div class="air-probe-bottom">
+                <div class="air-probe-stick"></div>
+                <div class="air-probe-base"></div>
+              </div>
+            </div>`,
+      dY: 63,
+      classList: 'marker-wrapper',
+      events: {
+        click: selectAirProbe
+      }
+    });
   }
 }
 
@@ -306,6 +338,9 @@ function CenterControl(controlDiv, map, db) {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const carIdButton = document.getElementById('id-car-folow');
+dropAirProbeInfo();
+document.querySelectorAll('.side-bar-label.extended')
+  .forEach(el => el.addEventListener('click', event => extendedSidebarLabelClick(event)));
 // const carResetButton = document.getElementById('id-car-unfolow');
 
 function initMap() {
@@ -331,6 +366,7 @@ function initMap() {
   const routManager = new RoutManager(map);
   const pitManager = new PitManager(map);
   const parkingManager = new ParkingManager(map);
+  const airProbeManager = new AirProbeManager(map);
   // Show trafick drow
   // const trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
@@ -433,6 +469,28 @@ function initMap() {
           lat: pit.lat,
           lng: pit.lng
         },
+      );
+    });
+  });
+
+  //-------------AirProbe DB-----------------------------------------
+  db.ref('airc_devices').once('value', snapshot => {
+    const val = snapshot.val();
+    const airc_devices = Object.values(val);
+    airc_devices.forEach((device, i) => {
+      airProbeManager.add(
+        {
+          lat: device.latitude,
+          lng: device.longitude
+        },
+        device.id,
+        device.type,
+        device.description,
+        device.working_status,
+        device.latitude,
+        device.longitude,
+        device.altitude,
+        133
       );
     });
   });
@@ -640,4 +698,61 @@ function calculateAndDisplayRoute(start, end, directionsService, directionsDispl
   });
 }
 
+function extendedSidebarLabelClick(event) {
+  const target = event.target;
+  const label = target.classList.contains('extended') ? 
+    target : target.closest('.extended');
+  label.classList.toggle('active');
+}
 
+function selectAirProbe(event) {
+  const target = event.target;
+  const id = parseInt(target.getAttribute('data-id'));
+  const type = target.getAttribute('data-type');
+  const working_status = target.getAttribute('data-working_status');
+  const description = target.getAttribute('data-description');
+  const latitude = target.getAttribute('data-latitude');
+  const longitude = target.getAttribute('data-longitude');
+  const altitude = target.getAttribute('data-altitude');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  db.ref('sensor-data/data').once('value', snapshot => {
+    const array = snapshot.val();
+    let val = array.filter(el => el.id == id);
+    val = val.sort((a, b) => b.messageDateTime < a.messageDateTime ? -1 : (b.messageDateTime > a.messageDateTime ? 1 : 0))[0];
+    const date = new Date(val.messageDateTime * 1000);
+    document.getElementById('id-label-val').innerHTML = val.id.toString();
+    document.getElementById('type-label-val').innerHTML = type.toString().replace('_', ' ');
+    document.getElementById('status-label-val').innerHTML = working_status == 1 ? 'On' : 'Off';
+    document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
+    document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    document.getElementById('description-label-val').innerHTML = description.toString();
+    document.getElementById('latitude-label-val').innerHTML = latitude.toString();
+    document.getElementById('longitude-label-val').innerHTML = longitude.toString();
+    document.getElementById('altitude-label-val').innerHTML = altitude.toString();
+    document.getElementById('temp1-label-val').innerHTML = val.measurements.temp1.toString() + '(°C)';
+    document.getElementById('temp2-label-val').innerHTML = val.measurements.temp2.toString() + '(°C)';
+    document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
+    document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
+    document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
+    document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
+    document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
+    document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
+    document.getElementById('co-hum-label-val').innerHTML = val.measurements.co_hum.toString() + '(%)';
+    document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
+    document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
+    document.getElementById('no2-hum-label-val').innerHTML = val.measurements.no2_hum.toString() + '(%)';
+    document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
+    document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
+    document.getElementById('so2-hum-label-val').innerHTML = val.measurements.so2_hum.toString() + '(%)';
+    document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
+    document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
+    document.getElementById('o3-hum-label-val').innerHTML = val.measurements.o3_hum.toString() + '(%)';
+    document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
+    document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
+    document.getElementById('pm10-label-val').innerHTML = val.measurements.pm10.toString() + '(μg/m3)';
+  });
+}
+
+function dropAirProbeInfo() {
+  document.querySelectorAll('.side-bar-label-val').forEach(el => el.innerHTML = '-');
+}
