@@ -78,15 +78,32 @@ static struct cluster_state_car {
 } state_car;
 
 static struct cluster_state_box {
+    uint8_t device_id;
+    uint8_t device_working_status;
+    uint32_t device_message_counter;
+    char device_type[19];
+    char device_description[500];
+    char message_date_time[24];
+    double latitude;
+    double longitude;
+    double altitude;
     double temp;
     double humidity;
     double co2;
     double tvoc;
     double pressure;
     double co;
+    double co_temp;
+    double co_hum;
     double no2;
+    double no2_temp;
+    double no2_hum;
     double so2;
+    double so2_temp;
+    double so2_hum;
     double o3;
+    double o3_temp;
+    double o3_hum;
     double hcho;
     double pm2_5;
     double pm10;
@@ -96,9 +113,15 @@ static std::mutex state_mutex;
 
 static void state_parse(const json& j)
 {
+    log_info("Packet parse started\n");
+
     json state_node = j["state"];
+
     if (state_node.is_null())
+    {
+        log_info("Packet state is NULL!\n");
         return;
+    }
 
     log_info("cluster: parse message");
     std::lock_guard<std::mutex> lock(state_mutex);
@@ -138,24 +161,55 @@ static void state_parse(const json& j)
     }
     else if(j["type"] == "AirC_Box") {
         try {
+            log_info("Parsing AirC_Box packet...");
+            std::string airc_type, airc_description, airc_date_time;
+
+            // AirC device information
+            j["id"].get_to(state_box.device_id);
+            j["status"].get_to(state_box.device_working_status);
+            j["counter"].get_to(state_box.device_message_counter);
+            j["type"].get_to(airc_type);
+
+            j["type"].get_to(airc_type);
+            strncpy(state_box.device_type, airc_type.c_str(), 19);
+            j["description"].get_to(airc_description);
+            strncpy(state_box.device_description, airc_description.c_str(), 500);
+            j["date_time"].get_to(airc_date_time);
+            strncpy(state_box.message_date_time, airc_date_time.c_str(), 24);
+
+            j["latitude"].get_to(state_box.latitude);
+            j["longitude"].get_to(state_box.longitude);
+            j["altitude"].get_to(state_box.altitude);
+            // state_node.at("skin").get_to(state_box.skin); // Unneeded for AirC_Box
+            // Sensor data
             state_node.at("temp").get_to(state_box.temp);
             state_node.at("humidity").get_to(state_box.humidity);
             state_node.at("co2").get_to(state_box.co2);
             state_node.at("tvoc").get_to(state_box.tvoc);
             state_node.at("pressure").get_to(state_box.pressure);
             state_node.at("co").get_to(state_box.co);
+            state_node.at("co_temp").get_to(state_box.co_temp);
+            state_node.at("co_hum").get_to(state_box.co_hum);
             state_node.at("no2").get_to(state_box.no2);
+            state_node.at("no2_temp").get_to(state_box.no2_temp);
+            state_node.at("no2_hum").get_to(state_box.no2_hum);
             state_node.at("so2").get_to(state_box.so2);
+            state_node.at("so2_temp").get_to(state_box.so2_temp);
+            state_node.at("so2_hum").get_to(state_box.so2_hum);
             state_node.at("o3").get_to(state_box.o3);
+            state_node.at("o3_temp").get_to(state_box.o3_temp);
+            state_node.at("o3_hum").get_to(state_box.o3_hum);
             state_node.at("hcho").get_to(state_box.hcho);
             state_node.at("pm2_5").get_to(state_box.pm2_5);
             state_node.at("pm10").get_to(state_box.pm10);
+
+            log_info("== Airc_Box message start ==");
+            log_info(j.dump().c_str());
+            log_info("== Airc_Box message end ==");
         } catch (std::exception &ex) {
-            log_error("Problem with read package from eserver: %s", ex.what());
+            log_error("AirC_Box: read error [%s]", ex.what());
         }
     }
-
-    log_info(state_node.dump().c_str());
 }
 
 static notifier_cb event_update;
@@ -164,12 +218,16 @@ static int filter_pkt(const char* pkt)
 {
     json value = json::parse(pkt);
 
-    if (value.is_null()) {
+    if (value.is_null())
+    {
         log_error("Unable to parse vws paket %s <<END", pkt);
         return -EINVAL;
     }
 
     std::strcpy(ctx->skin, value.at("skin").get<std::string>().c_str());
+
+    log_info("Packet parse started\n");
+
     state_parse(value);
 
     return 0;
