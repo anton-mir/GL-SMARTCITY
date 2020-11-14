@@ -764,8 +764,8 @@ function selectAirProbe(event) {
       document.getElementById('altitude-label-val').innerHTML = altitude.toString();
     if (typeof val.measurements.temp !== 'undefined')
       document.getElementById('temp1-label-val').innerHTML = (Math.floor(val.measurements.temp * 100) / 100).toString() + '(°C)';
-    if (typeof val.measurements.temp1 !== 'undefined')
-      document.getElementById('temp2-label-val').innerHTML = (Math.floor(val.measurements.temp1 * 100) / 100).toString() + '(°C)';
+    if (typeof val.measurements.temp_internal !== 'undefined')
+      document.getElementById('temp2-label-val').innerHTML = (Math.floor(val.measurements.temp_internal * 100) / 100).toString() + '(°C)';
     if (typeof val.measurements.humidity !== 'undefined')
       document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
     if (typeof val.measurements.pressure !== 'undefined')
