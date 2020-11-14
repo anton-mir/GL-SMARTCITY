@@ -81,12 +81,15 @@ class TruckManager {
   }
 
   add(location, url, id) {
+    var style = 'opacity: 0; visibility: collapse;';
+    if (document.getElementById('pits-enable').checked)
+      style = 'opacity: 1; visibility: visible;';
     // const latLng = new google.maps.LatLng(50.4412606,  30.4999897);
     const latLng = new google.maps.LatLng(location);
     const truck = createHTMLMarker({
       latlng: latLng,
       map: this.map,
-      html: '<div class="trucMarcker" style="background-image: url(../images/fireman_truck.jpg);"></div>',
+      html: '<div class="trucMarcker" style="background-image: url(../images/fireman_truck.jpg); '+style+'"></div>',
       dY: 63,
       // classList: 'truckMarkerWraper',
       classList: '',
@@ -158,11 +161,14 @@ class PitManager {
   }
 
   add (location, id) {
+    var style = 'opacity: 0; visibility: collapse;';
+    if (document.getElementById('pits-enable').checked)
+      style = 'opacity: 1; visibility: visible;';
     const latLng = new google.maps.LatLng(location);
     const pit = createHTMLMarker({
       latlng: latLng,
       map: this.map,
-      html: '<div class="pitMarcker" style="background-image: url(../images/pit_icon.png); background-position:center; background-size: cover; width: 40px; height: 40px;"></div>',
+      html: '<div class="pitMarcker" style="background-image: url(../images/pit_icon.png); background-position:center; background-size: cover; width: 40px; height: 40px; '+style+'"></div>',
       dY: 63,
       classList: 'marker-wrapper',
     });
@@ -191,12 +197,15 @@ class TrafficLightManager {
   }
 
   add(location, state, title, id) {
+    var style = 'opacity: 0; visibility: collapse;';
+    if (document.getElementById('traffic-lights-enable').checked)
+      style = 'opacity: 1; visibility: visible;';
     const latLng = new google.maps.LatLng(location);
     const tl = createHTMLMarker({
       latlng: latLng,
       map: this.map,
       html: `
-        <div id=${id} class="traffic-light traffic-light-sm" state="${state}" title="${title}">
+        <div id=${id} style="${style}" class="traffic-light traffic-light-sm" state="${state}" title="${title}">
           <div class="light red"></div>
           <div class="light yellow"></div>
           <div class="light green"></div>
@@ -338,6 +347,20 @@ function CenterControl(controlDiv, map, db) {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const carIdButton = document.getElementById('id-car-folow');
+document.getElementById("traffic-lights-enable").checked = false;
+document.getElementById("car-enable").checked = false;
+document.getElementById("dashboard-enable").checked = false;
+document.getElementById("pits-enable").checked = false;
+document.getElementById("air-probes-enable").checked = true;
+document.getElementById("air-probes-enable").disabled = true;
+document.querySelectorAll('.traffic-light-container').forEach(el => {
+  el.style.opacity = 0;
+  el.style.visibility = 'collapse';
+});
+document.querySelectorAll('.wrapper-gauge-panel').forEach(el => {
+  el.style.opacity = 0;
+  el.style.visibility = 'collapse';
+});
 dropAirProbeInfo();
 document.querySelectorAll('.side-bar-label.extended')
   .forEach(el => el.addEventListener('click', event => extendedSidebarLabelClick(event)));
@@ -719,40 +742,139 @@ function selectAirProbe(event) {
     const array = snapshot.val();
     let val = array.filter(el => el.id == id);
     val = val.sort((a, b) => b.messageDateTime < a.messageDateTime ? -1 : (b.messageDateTime > a.messageDateTime ? 1 : 0))[0];
+    console.log(val.messageDateTime)
     const date = new Date(val.messageDateTime * 1000);
-    document.getElementById('id-label-val').innerHTML = val.id.toString();
-    document.getElementById('type-label-val').innerHTML = type.toString().replace('_', ' ');
-    document.getElementById('status-label-val').innerHTML = working_status == 1 ? 'On' : 'Off';
-    document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
-    document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    document.getElementById('description-label-val').innerHTML = description.toString();
-    document.getElementById('latitude-label-val').innerHTML = latitude.toString();
-    document.getElementById('longitude-label-val').innerHTML = longitude.toString();
-    document.getElementById('altitude-label-val').innerHTML = altitude.toString();
-    document.getElementById('temp1-label-val').innerHTML = val.measurements.temp1.toString() + '(°C)';
-    document.getElementById('temp2-label-val').innerHTML = val.measurements.temp2.toString() + '(°C)';
-    document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
-    document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
-    document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
-    document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
-    document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
-    document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
-    document.getElementById('co-hum-label-val').innerHTML = val.measurements.co_hum.toString() + '(%)';
-    document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
-    document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
-    document.getElementById('no2-hum-label-val').innerHTML = val.measurements.no2_hum.toString() + '(%)';
-    document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
-    document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
-    document.getElementById('so2-hum-label-val').innerHTML = val.measurements.so2_hum.toString() + '(%)';
-    document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
-    document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
-    document.getElementById('o3-hum-label-val').innerHTML = val.measurements.o3_hum.toString() + '(%)';
-    document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
-    document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
-    document.getElementById('pm10-label-val').innerHTML = val.measurements.pm10.toString() + '(μg/m3)';
+    if (typeof val.id !== 'undefined')
+      document.getElementById('id-label-val').innerHTML = val.id.toString();
+    if (typeof type !== 'undefined')
+      document.getElementById('type-label-val').innerHTML = type.toString().replace('_', ' ');
+    if (typeof working_status !== 'undefined')
+      document.getElementById('status-label-val').innerHTML = working_status == 1 ? 'On' : 'Off';
+    if (typeof val.messageId !== 'undefined')
+      document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
+    if (typeof date !== 'undefined')
+      document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    if (typeof description !== 'undefined')
+      document.getElementById('description-label-val').innerHTML = description.toString();
+    if (typeof latitude !== 'undefined')    
+      document.getElementById('latitude-label-val').innerHTML = latitude.toString();
+    if (typeof longitude !== 'undefined')
+      document.getElementById('longitude-label-val').innerHTML = longitude.toString();
+    if (typeof altitude !== 'undefined')
+      document.getElementById('altitude-label-val').innerHTML = altitude.toString();
+    if (typeof val.measurements.temp !== 'undefined')
+      document.getElementById('temp1-label-val').innerHTML = (Math.floor(val.measurements.temp * 100) / 100).toString() + '(°C)';
+    if (typeof val.measurements.temp1 !== 'undefined')
+      document.getElementById('temp2-label-val').innerHTML = (Math.floor(val.measurements.temp1 * 100) / 100).toString() + '(°C)';
+    if (typeof val.measurements.humidity !== 'undefined')
+      document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
+    if (typeof val.measurements.pressure !== 'undefined')
+      document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
+    if (typeof val.measurements.tvoc !== 'undefined')
+      document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
+    if (typeof val.measurements.co2 !== 'undefined')
+      document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
+    if (typeof val.measurements.co !== 'undefined')
+      document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
+    if (typeof val.measurements.co_temp !== 'undefined')
+      document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
+    if (typeof val.measurements.co_hum !== 'undefined')
+      document.getElementById('co-hum-label-val').innerHTML = val.measurements.co_hum.toString() + '(%)';
+    if (typeof val.measurements.no2 !== 'undefined')
+      document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
+    if (typeof val.measurements.no2_temp !== 'undefined')
+      document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
+    if (typeof val.measurements.no2_hum !== 'undefined')
+      document.getElementById('no2-hum-label-val').innerHTML = val.measurements.no2_hum.toString() + '(%)';
+    if (typeof val.measurements.so2 !== 'undefined')
+      document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
+    if (typeof val.measurements.so2_temp !== 'undefined')
+      document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
+    if (typeof val.measurements.so2_hum !== 'undefined')
+      document.getElementById('so2-hum-label-val').innerHTML = val.measurements.so2_hum.toString() + '(%)';
+    if (typeof val.measurements.o3 !== 'undefined')
+      document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
+    if (typeof val.measurements.o3_temp !== 'undefined')
+      document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
+    if (typeof val.measurements.o3_hum !== 'undefined')
+      document.getElementById('o3-hum-label-val').innerHTML = val.measurements.o3_hum.toString() + '(%)';
+    if (typeof val.measurements.hcho !== 'undefined')
+      document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
+    if (typeof val.measurements.pm2_5 !== 'undefined')
+      document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
+    if (typeof val.measurements.pm10 !== 'undefined')
+      document.getElementById('pm10-label-val').innerHTML = val.measurements.pm10.toString() + '(μg/m3)';
   });
 }
 
 function dropAirProbeInfo() {
   document.querySelectorAll('.side-bar-label-val').forEach(el => el.innerHTML = '-');
+}
+
+function showTrafficLights(flag) {
+  if (flag) {
+    document.querySelectorAll('.traffic-light-container').forEach(el => {
+      el.style.opacity = 1;
+      el.style.visibility = 'visible';
+    });
+    document.querySelectorAll('.traffic-light').forEach(el => {
+      el.style.opacity = 1;
+      el.style.visibility = 'visible';
+    });
+  }
+  else {
+    document.querySelectorAll('.traffic-light-container').forEach(el => {
+      el.style.opacity = 0;
+      el.style.visibility = 'collapse';
+    });
+    document.querySelectorAll('.traffic-light').forEach(el => {
+      el.style.opacity = 0;
+      el.style.visibility = 'collapse';
+    });
+  }
+}
+
+function showCar(flag) {
+  if (flag) {
+    document.querySelectorAll('.trucMarcker').forEach(el => {
+      el.style.opacity = 1;
+      el.style.visibility = 'visible';
+    });
+  }
+  else {
+    document.querySelectorAll('.trucMarcker').forEach(el => {
+      el.style.opacity = 0;
+      el.style.visibility = 'collapse';
+    });
+  }
+}
+
+function showDashboard(flag) {
+  if (flag) {
+    document.querySelectorAll('.wrapper-gauge-panel').forEach(el => {
+      el.style.opacity = 1;
+      el.style.visibility = 'visible';
+    });
+  }
+  else {
+    document.querySelectorAll('.wrapper-gauge-panel').forEach(el => {
+      el.style.opacity = 0;
+      el.style.visibility = 'collapse';
+    });
+  }
+}
+
+function showPits(flag) {
+  if (flag) {
+    document.querySelectorAll('.pitMarcker').forEach(el => {
+      el.style.opacity = 1;
+      el.style.visibility = 'visible';
+    });
+  }
+  else {
+    document.querySelectorAll('.pitMarcker').forEach(el => {
+      el.style.opacity = 0;
+      el.style.visibility = 'collapse';
+    });
+  }
 }
