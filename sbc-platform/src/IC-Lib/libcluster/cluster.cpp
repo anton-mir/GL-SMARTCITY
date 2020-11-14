@@ -87,6 +87,7 @@ static struct cluster_state_box {
     double latitude;
     double longitude;
     double altitude;
+    double temp_internal;
     double temp;
     double humidity;
     double co2;
@@ -168,7 +169,7 @@ static void state_parse(const json& j)
             // AirC device information
             airc_device_info_node.at("id").get_to(state_box.device_id);
             airc_device_info_node.at("status").get_to(state_box.device_working_status);
-            airc_device_info_node.at("counter").get_to(state_box.device_message_counter);
+            airc_device_info_node.at("message_counter").get_to(state_box.device_message_counter);
 
             airc_device_info_node.at("type").get_to(airc_type);
             strncpy(state_box.device_type, airc_type.c_str(), 19);
@@ -181,6 +182,7 @@ static void state_parse(const json& j)
             airc_device_info_node.at("altitude").get_to(state_box.altitude);
 
             // Sensor data
+            state_node.at("temp_internal").get_to(state_box.temp_internal);
             state_node.at("temp").get_to(state_box.temp);
             state_node.at("humidity").get_to(state_box.humidity);
             state_node.at("co2").get_to(state_box.co2);
