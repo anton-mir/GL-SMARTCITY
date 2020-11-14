@@ -253,9 +253,11 @@ static int isLigthsPresent = 0;
 void
 MqttMsgManager::serverLoop()
 {
+     cout << __PRETTY_FUNCTION__ << " loop started" << endl;
     while (!isTerminateRequested()) {
-        // cout << __PRETTY_FUNCTION__ << " loop started" << endl;
-        printf("%s(): loop\n", __PRETTY_FUNCTION__);
+
+        // printf("%s(): loop\n", __PRETTY_FUNCTION__);
+
         moveDataQueueToInternal();
         terminateHangupInstances();
         //printf("tr2\n");

@@ -153,25 +153,33 @@ HubConfigManager::create(char *configFile)
             }
         }
     }
+
     // ----------------------- //
     if (!jObj.contains("data_lights_group_intervel"))
         cout << "data_lights_group_intervel not found, use default value: " << DEF_DATA_PROCESSOR_GROUP_TIME_SEC << "." << DEF_DATA_PROCESSOR_GROUP_TIME_MSEC << endl;
-    else {
+    else
+    {
         QJsonValueRef jVal = jObj["data_lights_group_intervel"];
         QJsonObject jSubObj = jVal.toObject();
         if (!jSubObj.contains("sec") || !jSubObj.contains("msec")) {
             cout << "data_lights_group_intervel must have fields: sec, msec" << endl;
             return nullptr;
-        } else {
+        }
+        else
+        {
             ClusterPktTime tmpTime;
             instance->dataProcessorGroupIntervalLights.seconds_ = jSubObj["sec"].toInt();
             instance->dataProcessorGroupIntervalLights.mseconds_ = jSubObj["msec"].toInt();
             tmpTime = ClusterPktTime(MIN_DATA_PROC_GROUP_INTERVAL_SEC, MIN_DATA_PROC_GROUP_INTERVAL_MSEC);
-            if (instance->dataProcessorGroupIntervalLights < tmpTime) {
+
+            if (instance->dataProcessorGroupIntervalLights < tmpTime)
+            {
                 cout << "min allowed data_lights_group_intervel is " << MIN_DATA_PROC_GROUP_INTERVAL_SEC << "." << MIN_DATA_PROC_GROUP_INTERVAL_MSEC << endl;
                 instance->dataProcessorGroupIntervalLights.seconds_ = MIN_DATA_PROC_GROUP_INTERVAL_SEC;
                 instance->dataProcessorGroupIntervalLights.mseconds_ = MIN_DATA_PROC_GROUP_INTERVAL_MSEC;
-            } else {
+            }
+            else
+            {
                 tmpTime = ClusterPktTime(MAX_DATA_PROC_GROUP_INTERVAL_SEC, MAX_DATA_PROC_GROUP_INTERVAL_MSEC);
                 if (instance->dataProcessorGroupIntervalLights > tmpTime) {
                     cout << "max allowed data_lights_group_intervel is " << MAX_DATA_PROC_GROUP_INTERVAL_SEC << "." << MAX_DATA_PROC_GROUP_INTERVAL_MSEC << endl;
@@ -181,10 +189,12 @@ HubConfigManager::create(char *configFile)
             }
         }
     }
+
     // ----------------------- //
     if (!jObj.contains("data_processor_store_every_pkt"))
         cout << "data_processor_store_every_pkt not found, use default value: " << DEF_DATA_PROCESSOR_STORE_EVERY_PKT << endl;
-    else {
+    else
+    {
         instance->dataProcessorStoreEveryPkt = jObj["data_processor_store_every_pkt"].toInt();
         if (instance->dataProcessorStoreEveryPkt > MAX_DATA_PROCESSOR_STORE_EVERY_PKT) {
             cout << "max allowed data_processor_store_every_pkt is " << MAX_DATA_PROCESSOR_STORE_EVERY_PKT << endl;
@@ -194,10 +204,12 @@ HubConfigManager::create(char *configFile)
             instance->dataProcessorStoreEveryPkt = MIN_DATA_PROCESSOR_STORE_EVERY_PKT;
         }
     }
+
     // ----------------------- //
     if (!jObj.contains("data_processor_ligths_store_every_pkt"))
         cout << "data_processor_ligths_store_every_pkt not found, use default value: " << DEF_DATA_PROCESSOR_STORE_EVERY_PKT << endl;
-    else {
+    else
+    {
         instance->dataProcessorStoreEveryPktLights = jObj["data_processor_ligths_store_every_pkt"].toInt();
         if (instance->dataProcessorStoreEveryPktLights > MAX_DATA_PROCESSOR_STORE_EVERY_PKT) {
             cout << "max allowed data_processor_ligths_store_every_pkt is " << MAX_DATA_PROCESSOR_STORE_EVERY_PKT << endl;
@@ -207,22 +219,31 @@ HubConfigManager::create(char *configFile)
             instance->dataProcessorStoreEveryPktLights = MIN_DATA_PROCESSOR_STORE_EVERY_PKT;
         }
     }
+
     // ----------------------- //
     if (!jObj.contains("port"))
-        cout << "port not found, use default value: " << DEF_UDP_SERVER_PORT << endl;
-    else {
+    {
+        cout << "MQTT [port] value not found in config, using default: " << DEF_UDP_SERVER_PORT << endl;
+    }
+    else
+    {
         instance->udpServerPort = jObj["data_processor_store_every_pkt"].toInt();
-        if (instance->udpServerPort > MAX_UDP_SERVER_PORT) {
+        if (instance->udpServerPort > MAX_UDP_SERVER_PORT)
+        {
             cout << "max allowed port is " << MAX_UDP_SERVER_PORT << endl;
             instance->udpServerPort = MAX_UDP_SERVER_PORT;
-        } else if (instance->udpServerPort < MIN_UDP_SERVER_PORT) {
+        }
+        else if (instance->udpServerPort < MIN_UDP_SERVER_PORT)
+        {
             cout << "min allowed port is " << MIN_UDP_SERVER_PORT << endl;
             instance->udpServerPort = MIN_UDP_SERVER_PORT;
         }
     }
+
     // ----------------------- //
     // objMqttParams
-    if (!jObj.contains("mqtt_group_param")) {
+    if (!jObj.contains("mqtt_group_param"))
+    {
         cout << "mqtt_group_param absent" << endl;
         return nullptr;
     }
@@ -230,68 +251,93 @@ HubConfigManager::create(char *configFile)
     QJsonObject jSubObj = jVal.toObject();
 
     shared_ptr<string> registryId;
-    if (!jSubObj.contains("registry_id")) {
+    if (!jSubObj.contains("registry_id"))
+    {
         cout << "mqtt_group_param.registry_id absent" << endl;
         return nullptr;
-    } else {
+    }
+    else
+    {
         registryId = shared_ptr<string>(new string(jSubObj["registry_id"].toString().trimmed().toUtf8().constData()));
         if (registryId->size() == 0) {
             cout << "mqtt_group_param.registry_id empty" << endl;
             return nullptr;
         }
     }
+
     // -------- //
     shared_ptr<string> projectId;
-    if (!jSubObj.contains("project_id")) {
+    if (!jSubObj.contains("project_id"))
+    {
         cout << "mqtt_group_param.project_id absent" << endl;
         return nullptr;
-    } else {
+    }
+    else
+    {
         projectId = shared_ptr<string>(new string(jSubObj["project_id"].toString().trimmed().toUtf8().constData()));
         if (projectId->size() == 0) {
             cout << "mqtt_group_param.project_id empty" << endl;
             return nullptr;
         }
     }
+
     // -------- //
     shared_ptr<string> rootPath;
-    if (!jSubObj.contains("root_cert")) {
+    if (!jSubObj.contains("root_cert"))
+    {
         cout << "mqtt_group_param.root_cert absent" << endl;
         return nullptr;
-    } else {
+    }
+    else
+    {
         rootPath = shared_ptr<string>(new string(jSubObj["root_cert"].toString().trimmed().toUtf8().constData()));
+
         if (rootPath->size() == 0) {
             cout << "mqtt_group_param.root_cert empty" << endl;
             return nullptr;
         }
-        if (!QFile::exists(rootPath->c_str())) {
+
+        if (!QFile::exists(rootPath->c_str()))
+        {
             cout << "mqtt_group_param.root_cert: file not exists: " << rootPath->c_str() << endl;
             return nullptr;
         }
     }
+
     // -------- //
     shared_ptr<string> region;
-    if (!jSubObj.contains("region")) {
+    if (!jSubObj.contains("region"))
+    {
         cout << "mqtt_group_param.region absent" << endl;
         return nullptr;
-    } else {
-        region = shared_ptr<string>(new string(jSubObj["region"].toString().trimmed().toUtf8().constData()));
-        if (region->size() == 0) {
+    }
+    else
+    {
+    region = shared_ptr<string>(new string(jSubObj["region"].toString().trimmed().toUtf8().constData()));
+        if (region->size() == 0)
+        {
             cout << "mqtt_group_param.region empty" << endl;
             return nullptr;
         }
     }
+
     // -------- //
-    if (!jSubObj.contains("objects")) {
+    if (!jSubObj.contains("objects"))
+    {
         cout << "mqtt_group_param.objects absent" << endl;
         return nullptr;
     }
     jVal = jSubObj["objects"];
     QJsonArray jMqttObj = jVal.toArray();
-    if ( jMqttObj.count() == 0) {
+
+    if ( jMqttObj.count() == 0)
+    {
         cout << "mqtt_group_param.objects is empty" << endl;
         return nullptr;
     }
-    for (int lp=0; lp < jMqttObj.count(); lp++) {
+
+    for (int lp=0; lp < jMqttObj.count(); lp++)
+    {
         shared_ptr<string> deviceId;
         shared_ptr<string> keyPath;
         shared_ptr<string> algorithm;
@@ -302,87 +348,132 @@ HubConfigManager::create(char *configFile)
         qlonglong sbc_id;
         QJsonObject mObj = jMqttObj[lp].toObject();
 
-        if (!mObj.contains("mqtt_id")) {
+        cout << "Processing config object " << lp << " ... ";
+
+        if (!mObj.contains("mqtt_id"))
+        {
             cout << "object[" << lp << "] skipped, mqtt_id absent" << endl;
             continue;
         }
+
         deviceId = shared_ptr<string>(new string(mObj["mqtt_id"].toString().trimmed().toUtf8().constData()));
-        if (deviceId->size() == 0) {
+
+        if (deviceId->size() == 0)
+        {
             cout << "object[" << lp << "] skipped, mqtt_id empty" << endl;
             continue;
         }
+
         // ---- //
-        if (!mObj.contains("sbc_id")) {
+        if (!mObj.contains("sbc_id"))
+        {
             cout << "object[" << lp << "] skipped, sbc_id absent" << endl;
             continue;
         }
         sbc_id =  mObj["sbc_id"].toVariant().toLongLong();
+
         // ---- //
-        if (!mObj.contains("key_path")) {
+        if (!mObj.contains("key_path"))
+        {
             cout << "object[" << lp << "] skipped, key_path absent" << endl;
             continue;
         }
         keyPath = shared_ptr<string>(new string(mObj["key_path"].toString().trimmed().toUtf8().constData()));
-        if (keyPath->size() == 0) {
+
+        if (keyPath->size() == 0)
+        {
             cout << "object[" << lp << "] skipped, key_path empty" << endl;
             continue;
         }
-        if (!QFile::exists(keyPath->c_str())) {
+
+        if (!QFile::exists(keyPath->c_str()))
+        {
             cout << "object[" << lp << "] skipped, key_path file not exists: " << keyPath->c_str() << endl;
             continue;
         }
+
         // ---- //
-        if (!mObj.contains("key_algorytm")) {
+
+        if (!mObj.contains("key_algorytm"))
+        {
             cout << "object[" << lp << "] skipped, key_algorytm absent" << endl;
             continue;
         }
+
         algorithm = shared_ptr<string>(new string(mObj["key_algorytm"].toString().trimmed().toUtf8().constData()));
-        if (algorithm->size() == 0) {
+
+        if (algorithm->size() == 0)
+        {
             cout << "object[" << lp << "] skipped, key_algorytm empty" << endl;
             continue;
         }
         // ---- //
-        if (mObj.contains("type")) {
+        if (mObj.contains("type"))
+        {
             strObjType = mObj["type"].toString().toUpper().toUtf8().data();
-            if (strObjType == "LIGHTS") {
+
+            if (strObjType == "LIGHTS")
+            {
                 objType = MQTT_OBJ_TYPE_LIGTH;
-                if (!mObj.contains("rhost")) {
-                    cout << "lights[" << lp << "] skipped, rhost absent" << endl;
+                if (!mObj.contains("rhost"))
+                {
+                    cout << "lights[" << lp << "] skipped, rhost absent." << endl;
                     continue;
                 }
                 rhost = shared_ptr<string>(new string(mObj["rhost"].toString().trimmed().toUtf8().data()));
-                if (rhost->size() == 0) {
-                    cout << "lights[" << lp << "] skipped, rhost empty" << endl;
+                if (rhost->size() == 0)
+                {
+                    cout << "lights[" << lp << "] skipped, rhost empty." << endl;
                     continue;
                 }
-                if (!mObj.contains("rport")) {
-                    cout << "lights[" << lp << "] skipped, rport absent" << endl;
+                if (!mObj.contains("rport"))
+                {
+                    cout << "lights[" << lp << "] skipped, rport absent." << endl;
                     continue;
                 }
                 rport = mObj["rport"].toInt();
-                if (rport < MIN_UDP_SERVER_PORT || rport > MAX_UDP_SERVER_PORT) {
+                if (rport < MIN_UDP_SERVER_PORT || rport > MAX_UDP_SERVER_PORT)
+                {
                     cout << "lights[" << lp << "] skipped, rport invalid value: " << rport << endl;
                     continue;
                 }
-            } else {
+            }
+            else if (strObjType == "AIRC_BOX")
+            {
+                cout << "Using AirC_Box type.";
+                objType = MQTT_OBJ_TYPE_AIRC_BOX;
+            }
+            else if (strObjType == "CAR")
+            {
+                cout << "Using Car type.";
+                objType = MQTT_OBJ_TYPE_CAR;
+            }
+            else
+            {
                 cout << "unknow type: " << mObj["type"].toString().toUpper().toUtf8().data() << ", use default type: car" << endl;
                 objType = MQTT_OBJ_TYPE_CAR;
             }
 
-        } else {
+        }
+        else
+        {
             cout << "absent object type, use default type: car" << endl;
             objType = MQTT_OBJ_TYPE_CAR;
-
         }
 
         // ---- //
         shared_ptr<MqttMsgParamsItem> mqttInstance = nullptr;
         if (objType == MQTT_OBJ_TYPE_LIGTH)
             mqttInstance = MqttMsgParamsItem::createL(sbc_id, deviceId, registryId, projectId, keyPath, algorithm, rootPath, region, objType, rhost, rport);
-        else
+        else if (objType == MQTT_OBJ_TYPE_AIRC_BOX)
             mqttInstance = MqttMsgParamsItem::create(sbc_id, deviceId, registryId, projectId, keyPath, algorithm, rootPath, region, objType);
+        else if (objType == MQTT_OBJ_TYPE_CAR)
+            mqttInstance = MqttMsgParamsItem::create(sbc_id, deviceId, registryId, projectId, keyPath, algorithm, rootPath, region, objType);
+
         if (mqttInstance != nullptr)
             instance->objMqttParams.push_back(mqttInstance);
+
+        cout << " Object processed.\n";
     }
     // -------- //
     if (instance->objMqttParams.empty() ) {
@@ -497,15 +588,20 @@ HubConfigManager::getSbcIdByMqttId(char *mqttId, int *result)
     uint64_t ret_val;
     unique_lock<mutex> lock(instanceAccessMutex);
     auto it = objMqttParams.begin();
-    for (; it != objMqttParams.end(); it++) {
+
+    for (; it != objMqttParams.end(); it++)
+    {
         if ((*it)->deviceId->compare(mqttId) == 0)
             break;
     }
-    if (it == objMqttParams.end()) {
+    if (it == objMqttParams.end())
+    {
         if (result != nullptr)
             *result = -1;
         ret_val = 0;
-    } else {
+    }
+    else
+    {
         if (result != nullptr)
             *result = 0;
         ret_val = (*it)->sbcObjId;

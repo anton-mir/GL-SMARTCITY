@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
         usage( (char*)"cloud_hub");
     if (argc != 2)
         usage(argv[0]);
-    cout << "trap0" << endl;
     shared_ptr<HubConfigManager> cfg = HubConfigManager::create(argv[1]);
     if (cfg == nullptr)
         return EXIT_FAILURE;

@@ -9,6 +9,7 @@ extern "C" {
 
 #define MQTT_OBJ_TYPE_CAR   1
 #define MQTT_OBJ_TYPE_LIGTH 2
+#define MQTT_OBJ_TYPE_AIRC_BOX 3
 
 #define DEF_SBC_LIGTHS_MQTT_ID  "mqtt-007"
 

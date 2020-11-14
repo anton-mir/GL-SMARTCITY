@@ -279,9 +279,9 @@ bool GetOpts(int argc, char** argv) {
       }
       return false;
     }
-    if (TRACE) {
-      printf("New client id constructed:\n");
-      printf("%s\n", opts.clientid);
+    if (TRACE)
+    {
+      printf("\n\nGot new message from client with ID: %s", opts.clientid);
     }
 
     return true; // Caller must free opts.clientid
@@ -378,25 +378,44 @@ int Publish(char* payload, int payload_size, unsigned obj_type, unsigned rport, 
   }
   */
 
-  while ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) {
+  while ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+  {
 //    printf("trap3.0\n");
-    if (rc == 3) {  // connection refused: server unavailable
-//    printf("trap3.1\n");
-
-      usleep(retry_interval_ms / 1000);
-      total_retry_time_ms += retry_interval_ms;
-      if (total_retry_time_ms >= kMaxConnectRetryTimeElapsedMillis) {
-        printf("Failed to connect, maximum retry time exceeded.");
-        exit(EXIT_FAILURE);
-      }
-      retry_interval_ms *= kIntervalMultiplier;
-      if (retry_interval_ms > kMaxConnectIntervalMillis) {
-        retry_interval_ms = kMaxConnectIntervalMillis;
-      }
-    } else {
-      printf("Failed to connect, return code %d\n", rc);
-      exit(EXIT_FAILURE);
+    switch (rc)
+    {
+        case 1:
+            printf("WARNING! Address: %s ID: %s - connection refused: Unacceptable protocol version. Check config.\n", opts.address, opts.clientid);
+            break;
+        case 2:
+            printf("WARNING! Address: %s ID: %s - connection refused: Identifier rejected\n", opts.address, opts.clientid);
+            break;
+        case 3:
+            printf("WARNING! ddress: %s ID: %s - connection refused: Server unavailable\n", opts.address, opts.clientid);
+            usleep(retry_interval_ms / 1000);
+            total_retry_time_ms += retry_interval_ms;
+            if (total_retry_time_ms >= kMaxConnectRetryTimeElapsedMillis)
+            {
+                printf("Failed to connect, maximum retry time exceeded.");
+                exit(EXIT_FAILURE);
+            }
+            retry_interval_ms *= kIntervalMultiplier;
+            if (retry_interval_ms > kMaxConnectIntervalMillis)
+            {
+                retry_interval_ms = kMaxConnectIntervalMillis;
+            }
+            printf("trap3.1\n");
+            break;
+        case 4:
+            printf("WARNING! Address: %s ID: %s - connection refused: Bad user name or password\n", opts.address, opts.clientid);
+            break;
+        case 5:
+            printf("WARNING! Address: %s ID: %s - connection refused: Not authorized\n", opts.address, opts.clientid);
+            break;
+        default:
+            printf("WARNING! Failed to connect\n");
+            break;
     }
+    exit(EXIT_FAILURE);
   }
   //char sub_topic[] = "projects/sunlit-precinct-233015//devices/{device-id}/commands/#";
   //char sub_topic[] = "projects/sunlit-precinct-233015/devices/2826951441757190/commands/#";

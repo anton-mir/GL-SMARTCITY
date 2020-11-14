@@ -31,11 +31,7 @@ MqttMsgInstance::create(shared_ptr<ClusterDataGroup> dataItem, shared_ptr<HubCon
     clock_gettime(CLOCK_REALTIME, &spec);
     instance->timeout_ = spec.tv_sec + cfg->getMqttMsgSendTimeout(); // calculate operation timeout
     instance->cfg_ = cfg;
-    cout << "fork00" << endl;
-    printf("fork0 \n");
     pid_t pid = fork();
-    cout << "fork10" << endl;
-    printf("fork1 \n");
     if (pid == (-1)) {
         cerr << "mqtt msg instance create child sub process failed, objId:" << dataItem->getObjId() << endl;
         return nullptr;

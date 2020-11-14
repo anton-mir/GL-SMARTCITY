@@ -116,6 +116,7 @@ static void state_parse(const json& j)
     log_info("Packet parse started\n");
 
     json state_node = j["state"];
+    json airc_device_info_node = j["airc_device_data"];
 
     if (state_node.is_null())
     {
@@ -165,22 +166,20 @@ static void state_parse(const json& j)
             std::string airc_type, airc_description, airc_date_time;
 
             // AirC device information
-            j["id"].get_to(state_box.device_id);
-            j["status"].get_to(state_box.device_working_status);
-            j["counter"].get_to(state_box.device_message_counter);
-            j["type"].get_to(airc_type);
+            airc_device_info_node.at("id").get_to(state_box.device_id);
+            airc_device_info_node.at("status").get_to(state_box.device_working_status);
+            airc_device_info_node.at("counter").get_to(state_box.device_message_counter);
 
-            j["type"].get_to(airc_type);
+            airc_device_info_node.at("type").get_to(airc_type);
             strncpy(state_box.device_type, airc_type.c_str(), 19);
-            j["description"].get_to(airc_description);
+            airc_device_info_node.at("description").get_to(airc_description);
             strncpy(state_box.device_description, airc_description.c_str(), 500);
-            j["date_time"].get_to(airc_date_time);
+            airc_device_info_node.at("date_time").get_to(airc_date_time);
             strncpy(state_box.message_date_time, airc_date_time.c_str(), 24);
+            airc_device_info_node.at("latitude").get_to(state_box.latitude);
+            airc_device_info_node.at("longitude").get_to(state_box.longitude);
+            airc_device_info_node.at("altitude").get_to(state_box.altitude);
 
-            j["latitude"].get_to(state_box.latitude);
-            j["longitude"].get_to(state_box.longitude);
-            j["altitude"].get_to(state_box.altitude);
-            // state_node.at("skin").get_to(state_box.skin); // Unneeded for AirC_Box
             // Sensor data
             state_node.at("temp").get_to(state_box.temp);
             state_node.at("humidity").get_to(state_box.humidity);
@@ -245,7 +244,9 @@ void onVwsMessageReceived(const char* buffer)
 
     if (!err) {
 
+        log_debug("Sending message to SCS...");
         scsSender->send(buffer);
+        log_debug("Sending message to CloudHUB...");
         hubSender->send(buffer);
 
         if (event_update) {
