@@ -473,7 +473,7 @@ HubConfigManager::create(char *configFile)
         if (mqttInstance != nullptr)
             instance->objMqttParams.push_back(mqttInstance);
 
-        cout << " Object processed.\n";
+        cout << " Object processed, end.\n";
     }
     // -------- //
     if (instance->objMqttParams.empty() ) {
@@ -485,25 +485,25 @@ HubConfigManager::create(char *configFile)
 
     // ------------------------------------------------------------------- //
     // ----------------------- test values ------------------------------- //
-    /*
-    {
-    shared_ptr<string> deviceId1 = shared_ptr<string>(new string("mqtt-001"));
-    shared_ptr<string> deviceId2 = shared_ptr<string>(new string("mqtt-002"));
-    shared_ptr<string> deviceId3 = shared_ptr<string>(new string("mqtt-003"));
-    //jr? ye ctqxfc vshared_ptr<string> deviceId10 = shared_ptr<string>(new string("mqtt-0010"));
 
-    shared_ptr<string> registryId = shared_ptr<string>(new string("smartcity"));
-    shared_ptr<string> projectId = shared_ptr<string>(new string("sunlit-precinct-233015"));
-    shared_ptr<string> keyPath = shared_ptr<string>(new string("./rsa_private.pem"));
-    shared_ptr<string> algorithm = shared_ptr<string>(new string("RS256"));
-    shared_ptr<string> rootPath = shared_ptr<string>(new string("./roots.pem"));
-    shared_ptr<string> region = shared_ptr<string>(new string("europe-west1"));
+//    {
+//    shared_ptr<string> deviceId1 = shared_ptr<string>(new string("mqtt-001"));
+//    shared_ptr<string> deviceId2 = shared_ptr<string>(new string("mqtt-002"));
+//    shared_ptr<string> deviceId3 = shared_ptr<string>(new string("mqtt-003"));
+//    shared_ptr<string> deviceId10 = shared_ptr<string>(new string("mqtt-0010"));
+//
+//    shared_ptr<string> registryId = shared_ptr<string>(new string("smartcity"));
+//    shared_ptr<string> projectId = shared_ptr<string>(new string("sunlit-precinct-233015"));
+//    shared_ptr<string> keyPath = shared_ptr<string>(new string("./rsa_private.pem"));
+//    shared_ptr<string> algorithm = shared_ptr<string>(new string("RS256"));
+//    shared_ptr<string> rootPath = shared_ptr<string>(new string("./roots.pem"));
+//    shared_ptr<string> region = shared_ptr<string>(new string("europe-west1"));
 
-    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1001, deviceId1, registryId, projectId, keyPath, algorithm, rootPath, region));
-    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1002, deviceId2, registryId, projectId, keyPath, algorithm, rootPath, region));
-    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1003, deviceId3, registryId, projectId, keyPath, algorithm, rootPath, region));
-    }
-    */
+//    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1001, deviceId1, registryId, projectId, keyPath, algorithm, rootPath, region));
+//    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1002, deviceId2, registryId, projectId, keyPath, algorithm, rootPath, region));
+//    instance->objMqttParams.push_back(MqttMsgParamsItem::create(1003, deviceId3, registryId, projectId, keyPath, algorithm, rootPath, region));
+//    }
+
     // ------------------------------------------------------------------- //
 
     lastInstance = instance;

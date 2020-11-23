@@ -185,7 +185,15 @@ MqttMsgManager::moveDataQueueToInternal()
     }
     // now tmpGDataList contain a new packet group //
     if (newGDataList == nullptr || newGDataList->size() == 0) // nothing to do
+    {
+        printf("No msg\r\n");
+        std::cout << "NO msg" << std::endl;
         return;
+    }
+    else
+    {
+        cout << "New message" << endl;
+    }
     for (auto nIt = newGDataList->begin(); nIt != newGDataList->end(); nIt++) {
         auto it = internalDataQueue.begin();
         for (; it != internalDataQueue.end(); it++) {
@@ -253,7 +261,8 @@ static int isLigthsPresent = 0;
 void
 MqttMsgManager::serverLoop()
 {
-     cout << __PRETTY_FUNCTION__ << " loop started" << endl;
+     std::cout << __PRETTY_FUNCTION__ << " loop started" << std::endl;
+     printf("loop started\r");
     while (!isTerminateRequested()) {
 
         // printf("%s(): loop\n", __PRETTY_FUNCTION__);

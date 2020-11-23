@@ -136,6 +136,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     while (1) {
+        cout << "While loop" << endl;
         pid_t *child_ac;
         int *rsl_ac;
         int cnt_ac;
@@ -163,8 +164,11 @@ int main(int argc, char *argv[])
 
         // if udp server loop error break man loop
         if (udpSrv->isErrorState())
+        {
+            cout << "Error" << endl;
             break;
-//        cout << "main hello" << endl;
+        }
+        cout << "main hello" << endl;
         usleep(100000); // need to 2 times less then MqttMsgManager server loop
     }
     mqttMsgManager = nullptr;   // tell to signal hanler, that mqttMsgManager absent
