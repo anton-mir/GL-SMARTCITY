@@ -132,7 +132,7 @@ HubConfigManager::create(char *configFile)
         QJsonValueRef jVal = jObj["data_processos_group_intervel"];
         QJsonObject jSubObj = jVal.toObject();
         if (!jSubObj.contains("sec") || !jSubObj.contains("msec")) {
-            cout << "data_processos_group_intervel must have fields: sec, msec" << endl;
+            printf("data_processos_group_intervel must have fields: sec, msec\n");
             return nullptr;
         } else {
             ClusterPktTime tmpTime;
@@ -162,7 +162,7 @@ HubConfigManager::create(char *configFile)
         QJsonValueRef jVal = jObj["data_lights_group_intervel"];
         QJsonObject jSubObj = jVal.toObject();
         if (!jSubObj.contains("sec") || !jSubObj.contains("msec")) {
-            cout << "data_lights_group_intervel must have fields: sec, msec" << endl;
+            printf("data_lights_group_intervel must have fields: sec, msec\n");
             return nullptr;
         }
         else
@@ -473,7 +473,7 @@ HubConfigManager::create(char *configFile)
         if (mqttInstance != nullptr)
             instance->objMqttParams.push_back(mqttInstance);
 
-        cout << " Object processed, end.\n";
+        cout << " Object processed.\n";
     }
     // -------- //
     if (instance->objMqttParams.empty() ) {

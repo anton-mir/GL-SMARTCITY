@@ -212,7 +212,7 @@ void UdpServer::serverLoop()
         }
 
     }
-    cout << "udp server loop terminated" << endl;
+    printf("udp server loop terminated\n");
 
 }
 

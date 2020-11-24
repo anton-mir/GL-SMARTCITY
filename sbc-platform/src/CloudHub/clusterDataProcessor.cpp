@@ -49,7 +49,7 @@ ClusterDataProcessor::addDataToQueue(shared_ptr<ClusterRawPkt> newData)
 //    unique_lock<mutex> lock(rawPacketsQueueMutex);
     unique_lock<mutex> lock(loopControlMutex);
     if (loopTerminateFlag)
-        cout << "data processos into terminating state, packet skipped" << endl;
+        printf("Data processos into terminating state, packet skipped\n");
     else
         rawPacketsQueue.push_back(newData);
 }
@@ -104,12 +104,12 @@ void ClusterDataProcessor::serverLoop()
             QJsonParseError jError;
             QJsonDocument jDoc = QJsonDocument::fromJson(qData, &jError);
             if (QJsonParseError::NoError != jError.error) {
-                cout << "failed to parse json pkt data: " << cur_pkt.get() << endl;
+                printf("failed to parse json pkt data: %s",cur_pkt->getData());
             } else {
                 // parse json pkt success
                 QJsonObject jObject = jDoc.object();
                 if ( !jObject.contains("id") ) {
-                    cout << "pkt must contain field \"id\", drop pkt: " << cur_pkt.get() << endl;
+                    printf("pkt must contain field \"id\", drop pkt: %s", cur_pkt->getData());
                 } else {
                     // id present into pkt
 
@@ -140,14 +140,14 @@ void ClusterDataProcessor::serverLoop()
                         if (createNewGroupNeeded) {
                             int objType = cfg_->getObjTypeForObjId(id);
                             if (objType == -1) {
-                                cout << "object type for id: " << id << " not found, packet dropped" << endl;
+                                printf("object type for id: %lld not found, packet dropped\n", id);
                             } else {
                                 if (objType == MQTT_OBJ_TYPE_LIGTH)
                                     curGroup = ClusterDataGroup::create(sendIntervalLights_, storeEveryPktLights_, objType);
                                 else
                                     curGroup = ClusterDataGroup::create(sendInterval_, storeEveryPkt_, objType);
                                 if (curGroup == nullptr) {
-                                    cerr << "failed to allocate new cluster group, pkt dropped" << endl;
+                                    printf("failed to allocate new cluster group, pkt dropped\n");
                                 } else { // if new group created
                                     curGroup->pushBack(dataItem);
                                     groupInProgress[id] = curGroup;
@@ -167,7 +167,7 @@ void ClusterDataProcessor::serverLoop()
             usleep(50000);
         } // end cur_pkt != null
     }
-    cout << "data processor loop terminated" << endl;
+    printf("data processor loop terminated\n");
 }
 
 
