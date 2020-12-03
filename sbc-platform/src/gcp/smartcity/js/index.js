@@ -738,72 +738,80 @@ function selectAirProbe(event) {
   const longitude = target.getAttribute('data-longitude');
   const altitude = target.getAttribute('data-altitude');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  db.ref('sensor-data/data').once('value', snapshot => {
-    const array = snapshot.val();
-    let val = array.filter(el => el.id == id);
-    val = val.sort((a, b) => b.messageDateTime < a.messageDateTime ? -1 : (b.messageDateTime > a.messageDateTime ? 1 : 0))[0];
-    console.log(val.messageDateTime)
-    const date = new Date(val.messageDateTime * 1000);
-    if (typeof val.id !== 'undefined')
-      document.getElementById('id-label-val').innerHTML = val.id.toString();
-    if (typeof type !== 'undefined')
-      document.getElementById('type-label-val').innerHTML = type.toString().replace('_', ' ');
-    if (typeof working_status !== 'undefined')
-      document.getElementById('status-label-val').innerHTML = working_status == 1 ? 'On' : 'Off';
-    if (typeof val.messageId !== 'undefined')
-      document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
-    if (typeof date !== 'undefined')
-      document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-    if (typeof description !== 'undefined')
-      document.getElementById('description-label-val').innerHTML = description.toString();
-    if (typeof latitude !== 'undefined')    
-      document.getElementById('latitude-label-val').innerHTML = latitude.toString();
-    if (typeof longitude !== 'undefined')
-      document.getElementById('longitude-label-val').innerHTML = longitude.toString();
-    if (typeof altitude !== 'undefined')
-      document.getElementById('altitude-label-val').innerHTML = altitude.toString();
-    if (typeof val.measurements.temp !== 'undefined')
-      document.getElementById('temp1-label-val').innerHTML = (Math.floor(val.measurements.temp * 100) / 100).toString() + '(°C)';
-    if (typeof val.measurements.temp_internal !== 'undefined')
-      document.getElementById('temp2-label-val').innerHTML = (Math.floor(val.measurements.temp_internal * 100) / 100).toString() + '(°C)';
-    if (typeof val.measurements.humidity !== 'undefined')
-      document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
-    if (typeof val.measurements.pressure !== 'undefined')
-      document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
-    if (typeof val.measurements.tvoc !== 'undefined')
-      document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
-    if (typeof val.measurements.co2 !== 'undefined')
-      document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
-    if (typeof val.measurements.co !== 'undefined')
-      document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
-    if (typeof val.measurements.co_temp !== 'undefined')
-      document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
-    if (typeof val.measurements.co_hum !== 'undefined')
-      document.getElementById('co-hum-label-val').innerHTML = val.measurements.co_hum.toString() + '(%)';
-    if (typeof val.measurements.no2 !== 'undefined')
-      document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
-    if (typeof val.measurements.no2_temp !== 'undefined')
-      document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
-    if (typeof val.measurements.no2_hum !== 'undefined')
-      document.getElementById('no2-hum-label-val').innerHTML = val.measurements.no2_hum.toString() + '(%)';
-    if (typeof val.measurements.so2 !== 'undefined')
-      document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
-    if (typeof val.measurements.so2_temp !== 'undefined')
-      document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
-    if (typeof val.measurements.so2_hum !== 'undefined')
-      document.getElementById('so2-hum-label-val').innerHTML = val.measurements.so2_hum.toString() + '(%)';
-    if (typeof val.measurements.o3 !== 'undefined')
-      document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
-    if (typeof val.measurements.o3_temp !== 'undefined')
-      document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
-    if (typeof val.measurements.o3_hum !== 'undefined')
-      document.getElementById('o3-hum-label-val').innerHTML = val.measurements.o3_hum.toString() + '(%)';
-    if (typeof val.measurements.hcho !== 'undefined')
-      document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
-    if (typeof val.measurements.pm2_5 !== 'undefined')
-      document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
-    if (typeof val.measurements.pm10 !== 'undefined')
-      document.getElementById('pm10-label-val').innerHTML = val.measurements.pm10.toString() + '(μg/m3)';
+  db.ref('sensor-data/last_added_id').once('value', last_id =>  {
+    last_id = last_id.val();
+    db.ref('sensor-data/data/' + last_id).once('value', data => {
+      const val = data.val();
+      const date = new Date(val.messageDateTime * 1000);
+      if (typeof val.id !== 'undefined')
+        document.getElementById('id-label-val').innerHTML = val.id.toString();
+      if (typeof type !== 'undefined')
+        document.getElementById('type-label-val').innerHTML = type.toString().replace('_', ' ');
+      if (typeof working_status !== 'undefined')
+        document.getElementById('status-label-val').innerHTML = working_status == 1 ? 'On' : 'Off';
+      if (typeof val.messageId !== 'undefined')
+        document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
+      if (typeof date !== 'undefined')
+        document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+      if (typeof description !== 'undefined')
+        document.getElementById('description-label-val').innerHTML = description.toString();
+      if (typeof latitude !== 'undefined')    
+        document.getElementById('latitude-label-val').innerHTML = latitude.toString();
+      if (typeof longitude !== 'undefined')
+        document.getElementById('longitude-label-val').innerHTML = longitude.toString();
+      if (typeof altitude !== 'undefined')
+        document.getElementById('altitude-label-val').innerHTML = altitude.toString();
+      if (typeof val.measurements.temp !== 'undefined')
+        document.getElementById('temp1-label-val').innerHTML = (Math.floor(val.measurements.temp * 100) / 100).toString() + '(°C)';
+      if (typeof val.measurements.temp_internal !== 'undefined')
+        document.getElementById('temp2-label-val').innerHTML = (Math.floor(val.measurements.temp_internal * 100) / 100).toString() + '(°C)';
+      if (typeof val.measurements.humidity !== 'undefined')
+        document.getElementById('humidity-label-val').innerHTML = val.measurements.humidity.toString() + '(%)';
+      if (typeof val.measurements.pressure !== 'undefined')
+        document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
+      if (typeof val.measurements.tvoc !== 'undefined')
+        document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
+      if (typeof val.measurements.co2 !== 'undefined')
+        document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
+      if (typeof val.measurements.co !== 'undefined')
+        document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
+      if (typeof val.measurements.co_temp !== 'undefined')
+        document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
+      if (typeof val.measurements.co_hum !== 'undefined')
+        document.getElementById('co-hum-label-val').innerHTML = val.measurements.co_hum.toString() + '(%)';
+      if (typeof val.measurements.co_err !== 'undefined')
+        document.getElementById('co-error-label-val').innerHTML = val.measurements.co_err.toString();
+      if (typeof val.measurements.no2 !== 'undefined')
+        document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
+      if (typeof val.measurements.no2_temp !== 'undefined')
+        document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
+      if (typeof val.measurements.no2_hum !== 'undefined')
+        document.getElementById('no2-hum-label-val').innerHTML = val.measurements.no2_hum.toString() + '(%)';
+      if (typeof val.measurements.no2_err !== 'undefined')
+        document.getElementById('no2-error-label-val').innerHTML = val.measurements.no2_err.toString();
+      if (typeof val.measurements.so2 !== 'undefined')
+        document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
+      if (typeof val.measurements.so2_temp !== 'undefined')
+        document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
+      if (typeof val.measurements.so2_hum !== 'undefined')
+        document.getElementById('so2-hum-label-val').innerHTML = val.measurements.so2_hum.toString() + '(%)';
+      if (typeof val.measurements.so2_err !== 'undefined')
+        document.getElementById('so2-error-label-val').innerHTML = val.measurements.so2_err.toString();
+      if (typeof val.measurements.o3 !== 'undefined')
+        document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
+      if (typeof val.measurements.o3_temp !== 'undefined')
+        document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
+      if (typeof val.measurements.o3_hum !== 'undefined')
+        document.getElementById('o3-hum-label-val').innerHTML = val.measurements.o3_hum.toString() + '(%)';
+      if (typeof val.measurements.o3_err !== 'undefined')
+        document.getElementById('o3-error-label-val').innerHTML = val.measurements.o3_err.toString();
+      if (typeof val.measurements.hcho !== 'undefined')
+        document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
+      if (typeof val.measurements.pm2_5 !== 'undefined')
+        document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
+      if (typeof val.measurements.pm10 !== 'undefined')
+        document.getElementById('pm10-label-val').innerHTML = val.measurements.pm10.toString() + '(μg/m3)';
+    });
   });
 }
 
