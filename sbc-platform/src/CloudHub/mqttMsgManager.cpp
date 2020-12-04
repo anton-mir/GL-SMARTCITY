@@ -181,11 +181,18 @@ MqttMsgManager::moveDataQueueToInternal()
     dataQueue = nullptr;
     dataQueue = shared_ptr<list<shared_ptr<ClusterDataGroup> > >(new list<shared_ptr<ClusterDataGroup> >);
     if (dataQueue == nullptr)
-        cerr << "Warning: allocate new group data list failed, try this operation later" << endl;
+        printf("Warning: allocate new group data list failed, try this operation later\n");
     }
     // now tmpGDataList contain a new packet group //
     if (newGDataList == nullptr || newGDataList->size() == 0) // nothing to do
+    {
+        printf(".");
         return;
+    }
+    else
+    {
+        printf("New message\n");
+    }
     for (auto nIt = newGDataList->begin(); nIt != newGDataList->end(); nIt++) {
         auto it = internalDataQueue.begin();
         for (; it != internalDataQueue.end(); it++) {
@@ -227,7 +234,6 @@ MqttMsgManager::cleanCompletedMsgInstances()
                     if (rsl != EXIT_SUCCESS)
                         cout << "failed to store group data, objId: " << (*it)->getObjId() << endl;
                     msgInProgress.erase(it);
-                    cout << "bababu" << endl;
                 }
                 waitChildPid[lp] = 0; // clear processed pid into pid list
             }
@@ -253,9 +259,12 @@ static int isLigthsPresent = 0;
 void
 MqttMsgManager::serverLoop()
 {
+//     std::cout << __PRETTY_FUNCTION__ << " loop started" << std::endl;
+     printf("loop started\n");
     while (!isTerminateRequested()) {
-        // cout << __PRETTY_FUNCTION__ << " loop started" << endl;
-        printf("%s(): loop\n", __PRETTY_FUNCTION__);
+
+        // printf("%s(): loop\n", __PRETTY_FUNCTION__);
+
         moveDataQueueToInternal();
         terminateHangupInstances();
         //printf("tr2\n");
@@ -290,6 +299,6 @@ MqttMsgManager::serverLoop()
         } // end msgInProgress.size() < maxParallelInstances_
         usleep(200000);
     }
-    cout << "mqtt message manager: main thread loop ended" << endl;
+    printf("mqtt message manager: main thread loop ended\n");
 }
 

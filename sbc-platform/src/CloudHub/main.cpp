@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
         usage( (char*)"cloud_hub");
     if (argc != 2)
         usage(argv[0]);
-    cout << "trap0" << endl;
     shared_ptr<HubConfigManager> cfg = HubConfigManager::create(argv[1]);
     if (cfg == nullptr)
         return EXIT_FAILURE;
@@ -164,12 +163,13 @@ int main(int argc, char *argv[])
 
         // if udp server loop error break man loop
         if (udpSrv->isErrorState())
+        {
+            printf("Error in main()\n");
             break;
-//        cout << "main hello" << endl;
+        }
         usleep(100000); // need to 2 times less then MqttMsgManager server loop
     }
     mqttMsgManager = nullptr;   // tell to signal hanler, that mqttMsgManager absent
-    cout << "before exit" << endl;
     return EXIT_SUCCESS;
 }
 
