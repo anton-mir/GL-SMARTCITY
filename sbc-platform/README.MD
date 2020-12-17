@@ -220,7 +220,7 @@ $ cd ~/src/GL-SMARTCITY/sbc-platform
 $ ./run_airc.sh
 ```
 
-To stop all use *stop_aitc.sh* script. 
+To stop all use *sudo stop_aitc.sh* script. 
 
 Log files located in *~/src/GL-SMARTCITY/sbc-platform/logs* folder.
 
