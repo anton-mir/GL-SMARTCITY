@@ -4,12 +4,35 @@
 <head>
     <title>Smart City</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/61be0552c5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
 <body>
     <div class="top-bar">
         <span class="header-label">Smart City <span class="version">v1.1</span></span>
+        <div class="view-box">
+            <div class="checkbox-selector">
+                <input onchange="showTrafficLights(event.target.checked)" type="checkbox" value="0" id="traffic-lights-enable" name="" />
+                <label class="checkbox-selector-label" for="traffic-lights-enable"><i class="fas fa-traffic-light"></i></label>
+            </div>
+            <div class="checkbox-selector">
+                <input onchange="showCar(event.target.checked)" type="checkbox" id="car-enable"/>
+                <label class="checkbox-selector-label" for="car-enable"><i class="fas fa-car"></i></i></label>
+            </div>
+            <div class="checkbox-selector">
+                <input onchange="showDashboard(event.target.checked)" type="checkbox" id="dashboard-enable"/>
+                <label class="checkbox-selector-label" for="dashboard-enable"><i class="fas fa-tachometer-alt"></i></label>
+            </div>
+            <div class="checkbox-selector">
+                <input onchange="showPits(event.target.checked)" type="checkbox" id="pits-enable"/>
+                <label class="checkbox-selector-label" for="pits-enable"><i class="fas fa-exclamation-circle"></i></label>
+            </div>
+            <div class="checkbox-selector">
+                <input type="checkbox" id="air-probes-enable" checked disabled />
+                <label class="checkbox-selector-label" for="air-probes-enable"><i class="fas fa-wind"></i></label>
+            </div>
+        </div>
         <div class="logo-gl-container">
             <span class="logo-gl"></span>
             <ul>
@@ -106,6 +129,11 @@
                         <span class="extern-info-label-name">Hum:</span>
                         <span class="extern-info-label-val" id="co-hum-label-val">-</span>
                     </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Error:</span>
+                        <span class="extern-info-label-val" id="co-error-label-val">-</span>
+                    </label>
                 </div>
             </label>
             <label class="side-bar-label extended">
@@ -122,6 +150,11 @@
                         <span class="extern-info-label-space"></span>
                         <span class="extern-info-label-name">Hum:</span>
                         <span class="extern-info-label-val" id="no2-hum-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Error:</span>
+                        <span class="extern-info-label-val" id="no2-error-label-val">-</span>
                     </label>
                 </div>
             </label>
@@ -140,6 +173,11 @@
                         <span class="extern-info-label-name">Hum:</span>
                         <span class="extern-info-label-val" id="so2-hum-label-val">-</span>
                     </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Error:</span>
+                        <span class="extern-info-label-val" id="so2-error-label-val">-</span>
+                    </label>
                 </div>
             </label>
             <label class="side-bar-label extended">
@@ -156,6 +194,11 @@
                         <span class="extern-info-label-space"></span>
                         <span class="extern-info-label-name">Hum:</span>
                         <span class="extern-info-label-val" id="o3-hum-label-val">-</span>
+                    </label>
+                    <label class="extern-info-label">
+                        <span class="extern-info-label-space"></span>
+                        <span class="extern-info-label-name">Error:</span>
+                        <span class="extern-info-label-val" id="o3-error-label-val">-</span>
                     </label>
                 </div>
             </label>
@@ -201,9 +244,9 @@
     <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
     <script src="js/index.js"></script>
     <!-- TODO: Add Google Maps API Key here -->
-    <script async defer
+    <!--<script async defer
         src="https://maps.googleapis.com/maps/api/js?key=[APP_KEY]&callback=initMap&libraries=geometry">
-    </script>
+    </script>-->
 </body>
 
 </html>

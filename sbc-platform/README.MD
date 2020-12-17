@@ -175,7 +175,7 @@ Press reset button at STM32F4DISCOVERY board.
 
 You should see incoming signals from STM32F4DISCOVERY.
 
-### 3 Run gpsfake
+### 3 Run gpsfake (if needed)
 
 Open new terminal tab and run:
 
@@ -189,10 +189,10 @@ using this website https://nmeagen.org
 
 ### 4 Run sbc-car
 
-Open new terminal tab and run:
+Open new terminal tab and run (change IP to yours airc-box device IP):
 
 ```
-cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device box
+cd ~/src/GL-SMARTCITY/sbc-platform/build/src/sbc-car/bin && ./obdgpslogger --airc-device box --airc-box-ip 192.168.88.116
 ```
 
 ### 5 Run IC-Lib
