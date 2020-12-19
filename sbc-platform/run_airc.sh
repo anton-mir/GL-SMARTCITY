@@ -27,7 +27,7 @@ echo -en "\nRunning CloudHub...\n\n"
 bash -c 'cd ~/src/GL-SMARTCITY/sbc-platform/build/src/CloudHub && ./cloud_hub conf/config.json &' >> logs/cloud_hub.log 2>> logs/cloud_hub.err
 sleep 3
 
-cd logs
+cd logs || exit
 bash -c 'while true; do tail -10 cloud_hub.log > cloud_hub_.log; cat cloud_hub_.log > cloud_hub.log; tail -10 cluster-app.err > cluster-app_.err; cat cluster-app_.err > cluster-app.err; tail -10 obdgpslogger.log > obdgpslogger_.log; cat obdgpslogger_.log > obdgpslogger.log; sleep 300; done;' &
 echo $! > log_ps_id
 

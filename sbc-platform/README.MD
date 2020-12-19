@@ -119,21 +119,28 @@ starterkit.
 Before continue with this manual, please read file **README.md** in
 _~/src/GL-SMARTCITY/sbc-platform/src/pits/xlgyro_ for building and flashing instructions.
 
-### Setup CloudHub
+### Build AirC device
+
+In order to run AirC Box you need to build AirC device. This version of AirC device works in
+connection with GL StarterKit Board. You can find all documentation including
+schematics in [src/airc-device/docs](src/airc-device/docs)  and
+[src/airc-device/pcb](src/airc-device/pcb) folders.
+
+#### ESP-01
+
+AirC Box use ESP-01 as WiFi access point for updating AirC config. Connect ESP-01
+with default AT-commands based firmware as described in documentation in 
+[src/airc-device/docs](src/airc-device/docs) folder.
+
+### Setup Google Cloud
 
 In order to be able to publish data and see the results on the map, you need to setup 
 data transfer to the Google cloud account, prepared for you by project staff or optionally
-you can setup setup your own cloud. 
+you can setup setup your own cloud. For this please use *.odt documentation from [/docs](/docs) folder. 
 
-If you want to use defaut course account, please edit this file 
-~/src/GL-SMARTCITY/sbc-platform/src/CloudHub/conf/config.json and fill there "registry_id"
-and "project_id" fields with AirC project default settings (insert your registry id instead 
-of "registryId" and your project id instead of "project-id-123456").
-You can get this IDs from project course staff. Also staff will give you sequre keys 
-that you will need to place into ~/src/GL-SMARTCITY/sbc-platform/src/CloudHub/certs folder. 
-
-For more detailed information (or if you want to setup your personal Google cloud)
-please refer to Google Cloud setup manual specially prepared by AirC project staff.
+You need to edit this file ~/src/GL-SMARTCITY/sbc-platform/src/CloudHub/conf/config.json 
+and fill there "registry_id" and "project_id" fields with your project default settings 
+(insert your registry id instead of "registryId" and your project id instead of "project-id-123456"). 
 
 ### Build SBC and all components
 
@@ -142,7 +149,7 @@ $ cd ~/src/GL-SMARTCITY/sbc-platform
 $ ./build.sh 
 ```
 **build.sh** options: 
-* _--pits_ Build for pits on road detection (working with GL Starterkit)
+* _--pits_ Build for pits on road detection (working with GL Starterkit, demo project)
 * _--clean_ Remove previous build
 
 **build.sh** build debug version without pits detection by default. 
@@ -151,8 +158,7 @@ If you want to process data from STM32F4DISCOVERY use *--pits* option.
 # How to RUN ALL  
 
 For running each app use separate terminal tabs. If you don't run pits demo
-with STM32F4DISCOVERY, skip step 1 and step 2, start with step 3. 
-
+with STM32F4DISCOVERY, skip step 1 and step 2, start with step 3 or better from 4.
 
 ### 1 Run xlgyro
 
@@ -175,7 +181,7 @@ Press reset button at STM32F4DISCOVERY board.
 
 You should see incoming signals from STM32F4DISCOVERY.
 
-### 3 Run gpsfake (if needed)
+### 3 Run gpsfake (if needed, AirC works without fake GPS)
 
 Open new terminal tab and run:
 
@@ -213,23 +219,22 @@ $ cd ~/src/GL-SMARTCITY/sbc-platform/build/src/CloudHub && ./cloud_hub conf/conf
 
 ### Run all together
 
-Optionally, if you don't want to open many windows, you can run apps as daemons in foreground:
+Optionally, if you don't want to open many windows, you can run apps as daemons in 
+foreground and monitor only CloudHub logs:
 
 ```
 $ cd ~/src/GL-SMARTCITY/sbc-platform
 $ ./run_airc.sh
 ```
 
-To stop all use *sudo stop_aitc.sh* script. 
+To stop use *Ctrl-C* or *stop_aitc.sh* script.
 
 Log files located in *~/src/GL-SMARTCITY/sbc-platform/logs* folder.
 
 ## Check result
 
 Open Google Cloud Firebase app at [https://potent-shade-266308.firebaseapp.com](https://potent-shade-266308.firebaseapp.com/) 
-(or use your previously set up cloud account).
+(or use link from your Google Cloud account).
 
-The car should be driving along the path. 
+You should see marker with AirC Box air parameters or car driving along the path for pits demo. 
 
-When the pit is detected with GL Starterkit board, an marker should appear at
-the map near the place where the car was at this moment.
