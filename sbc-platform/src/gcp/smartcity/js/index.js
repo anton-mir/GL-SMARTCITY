@@ -17,7 +17,7 @@ const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) =
       this.html = args.html;
       this.setMap(args.map);
     }
-   
+
     createDiv() {
       this.div = document.createElement('div');
       this.div.className = args.classList;
@@ -32,12 +32,12 @@ const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) =
         this.div.addEventListener('click', event => args.events.click(event))
       }
     }
-  
+
     appendDivToOverlay() {
       const panes = this.getPanes();
       panes.overlayImage.appendChild(this.div);
     }
-  
+
     positionDiv() {
       const point = this.getProjection().fromLatLngToDivPixel(this.latlng);
       if (point) {
@@ -45,7 +45,7 @@ const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) =
         this.div.style.top = `${point.y - args.dY}px`;
       }
     }
-  
+
     draw() {
       if (!this.div) {
         this.createDiv();
@@ -53,18 +53,18 @@ const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) =
       }
       this.positionDiv();
     }
-  
+
     remove() {
       if (this.div) {
         this.div.parentNode.removeChild(this.div);
         this.div = null;
       }
     }
-  
+
     getPosition() {
       return this.latlng;
     }
-  
+
     getDraggable() {
       return false;
     }
@@ -93,12 +93,12 @@ class TruckManager {
       // classList: 'truckMarkerWraper',
       classList: '',
     });
-    
+
     truck.addListener('click', () => {
       console.log(id);
       changeIdGauge(id);
       changeCarIdGauge(id);
-    });  
+    });
 
     this.trucksGroup[id] = truck;
   }
@@ -132,7 +132,7 @@ class RoutManager {
         routArr.push(sigle);
       }
     });
-    
+
     const flightPath = new google.maps.Polyline({
       path: routArr,
       geodesic: true,
@@ -141,7 +141,7 @@ class RoutManager {
       strokeWeight: 3
     });
     flightPath.setMap(this.map);
-    
+
     this.routGroup[id] = flightPath;
   }
 
@@ -276,7 +276,7 @@ class AirProbeManager {
 function changeTrafficLightFocused(tl) {
   if (tl) {
     const panel = document.getElementsByClassName('traffic-light-panel-container')[0];
-  
+
     panel.innerHTML = `
       <div class="traffic-light-panel">
         <div class="traffic-light-header">
@@ -291,7 +291,7 @@ function changeTrafficLightFocused(tl) {
             <div class="box-label">Longitude</div>
             <div class="tl-longitude box-text">${tl.longitude ? tl.longitude : ''}</div>
           </div>
-        </div>                
+        </div>
       </div>`;
 
     changeTrafficLightColor('main', tl.state, false);
@@ -367,7 +367,7 @@ document.querySelectorAll('.side-bar-label.extended')
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 50.435998, lng: 30.488985}, 
+    center: {lat: 50.435998, lng: 30.488985},
     zoom: 15.5
   });
   sessionStorage.clear();
@@ -382,7 +382,7 @@ function initMap() {
 
   const header = document.getElementsByClassName('header-label')[0];
   header.addEventListener('click', () => setMapCenter(map, db));
-  
+
   const tlManager = new TrafficLightManager(map);
   const trucksManager = new TruckManager(map);
   const routManager = new RoutManager(map);
@@ -403,7 +403,7 @@ function initMap() {
         db.ref('car-locations').once('value', snapshot => {
           const val = snapshot.val();
           const trucksLocation = Object.values(val);
-      
+
           trucksLocation.forEach(truck => {
             if( targetId === truck.id){
               latitude = truck.state.latitude;
@@ -450,7 +450,7 @@ function initMap() {
     const val = snapshot.val();
     const tls = Object.values(val);
 
-    tls.forEach(tl => {    
+    tls.forEach(tl => {
       tlManager.add(
         {
           lat: tl.latitude,
@@ -466,20 +466,20 @@ function initMap() {
   db.ref('tl-focused').on('value', snapshot => {
     const tl = snapshot.val();
     tlManager.focus(tl.id);
-    
+
     db.ref('traffic-lights').orderByChild('id').equalTo(tl.id).limitToFirst(1).once('value', snap => {
       const val = snap.val();
       const keys = Object.keys(val);
       keys.length && changeTrafficLightFocused(val[keys[0]]);
     });
   });
-  
+
   db.ref('traffic-lights').on('child_changed', snapshot => {
     const tl = snapshot.val() || {};
 
     changeTrafficLightColor(tl.id, tl.state, true);
 
-    if (tl.id === tlManager.focused) changeTrafficLightColor('main', tl.state, true); 
+    if (tl.id === tlManager.focused) changeTrafficLightColor('main', tl.state, true);
   });
   //-------------Pit DB-----------------------------------------
   db.ref('pit-locations/data').once('value', snapshot => {
@@ -495,12 +495,12 @@ function initMap() {
     });
   });
 
-//-------------AirProbe DB-----------------------------------------
+  //-------------AirProbe DB-----------------------------------------
   db.ref('sensor-data/data').once('value', snapshot => {
     const val = snapshot.val();
     let measurements = Object.values(val);
 
-    measurements = measurements.sort(function(a, b) { 
+    measurements = measurements.sort(function(a, b) {
       if (a.messageDateTime > b.messageDateTime) return -1;
       else if (a.messageDateTime < b.messageDateTime) return 1;
       else return 0;
@@ -564,11 +564,11 @@ function initMap() {
       );
     });
   });
-    
+
   db.ref('car-locations').on('child_changed', snapshot => {
     const truck = snapshot.val();
     console.log(truck);
-    
+
     trucksManager.update(
       {
         lat: truck.state.latitude,
@@ -584,7 +584,7 @@ function initMap() {
     if(folowCheckId === truck.id) {
       map.setCenter(new google.maps.LatLng(truck.state.latitude, truck.state.longitude));
     }
-    
+
   });
 
 
@@ -733,7 +733,7 @@ function calculateAndDisplayRoute(start, end, directionsService, directionsDispl
 
 function extendedSidebarLabelClick(event) {
   const target = event.target;
-  const label = target.classList.contains('extended') ? 
+  const label = target.classList.contains('extended') ?
     target : target.closest('.extended');
   label.classList.toggle('active');
 }
@@ -754,10 +754,6 @@ function selectAirProbe(event) {
       const altitude = device.altitude;
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  db.ref('sensor-data/last_added_id').once('value', last_id =>  {
-    last_id = last_id.val();
-    db.ref('sensor-data/data/' + last_id).once('value', data => {
-      const val = data.val();
       const date = new Date(val.messageDateTime * 1000);
       if (typeof val.id !== 'undefined')
         document.getElementById('id-label-val').innerHTML = val.id.toString();
@@ -771,7 +767,7 @@ function selectAirProbe(event) {
         document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
       if (typeof description !== 'undefined')
         document.getElementById('description-label-val').innerHTML = description.toString();
-      if (typeof latitude !== 'undefined')    
+      if (typeof latitude !== 'undefined')
         document.getElementById('latitude-label-val').innerHTML = latitude.toString();
       if (typeof longitude !== 'undefined')
         document.getElementById('longitude-label-val').innerHTML = longitude.toString();
