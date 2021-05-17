@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
   apiKey: "",
   authDomain: "",
@@ -250,13 +249,13 @@ class AirProbeManager {
     this.map = map;
   }
 
-  add (location, id, type, description, working_status, latitude, longitude, altitude, value) {
+  add (location, id, value) {
     const latLng = new google.maps.LatLng(location);
     const probe = createHTMLMarker({
       latlng: latLng,
       map: this.map,
       html: `<div class="air-probe normal">
-              <div class="air-probe-overlay" data-id="`+id+`" data-type="`+type+`" data-description="`+description+`" data-working_status="`+working_status+`" data-latitude="`+latitude+`" data-longitude="`+longitude+`" data-altitude="`+altitude+`"></div>
+              <div class="air-probe-overlay" data-id="`+id+`"></div>
               <div class="air-probe-top">
                 <span class="air-probe-value">`+value+`</span>
               </div>
@@ -496,23 +495,34 @@ function initMap() {
     });
   });
 
-  //-------------AirProbe DB-----------------------------------------
-  db.ref('airc_devices').once('value', snapshot => {
+//-------------AirProbe DB-----------------------------------------
+  db.ref('sensor-data/data').once('value', snapshot => {
     const val = snapshot.val();
-    const airc_devices = Object.values(val);
-    airc_devices.forEach((device, i) => {
+    let measurements = Object.values(val);
+
+    measurements = measurements.sort(function(a, b) { 
+      if (a.messageDateTime > b.messageDateTime) return -1;
+      else if (a.messageDateTime < b.messageDateTime) return 1;
+      else return 0;
+    });
+
+    grouped_measurements = [];
+    while (measurements.length > 0) {
+      grouped_measurements.push(measurements[0]);
+      measurements = measurements.slice(1).filter(x => !geolib.isPointWithinRadius(
+        x.deviceLocationGPS,
+        measurements[0].deviceLocationGPS,
+        100
+      ));
+    }
+
+    grouped_measurements.forEach(data => {
       airProbeManager.add(
         {
-          lat: device.latitude,
-          lng: device.longitude
+          lat: data.deviceLocationGPS.latitude,
+          lng: data.deviceLocationGPS.longitude
         },
-        device.id,
-        device.type,
-        device.description,
-        device.working_status,
-        device.latitude,
-        device.longitude,
-        device.altitude,
+        data.messageId,
         133
       );
     });
@@ -731,13 +741,19 @@ function extendedSidebarLabelClick(event) {
 function selectAirProbe(event) {
   const target = event.target;
   const id = parseInt(target.getAttribute('data-id'));
-  const type = target.getAttribute('data-type');
-  const working_status = target.getAttribute('data-working_status');
-  const description = target.getAttribute('data-description');
-  const latitude = target.getAttribute('data-latitude');
-  const longitude = target.getAttribute('data-longitude');
-  const altitude = target.getAttribute('data-altitude');
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  db.ref('sensor-data/data').once('value', snapshot => {
+    const measurement = Object.values(snapshot.val()).filter(x => x.messageId == id);
+    const val = measurement[0];
+    db.ref('airc_devices/' + val.id).once('value', data => {
+      const device = data.val();
+      const type = device.type;
+      const working_status = device.working_status;
+      const description = device.description;
+      const latitude = device.latitude;
+      const longitude = device.longitude;
+      const altitude = device.altitude;
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
   db.ref('sensor-data/last_added_id').once('value', last_id =>  {
     last_id = last_id.val();
     db.ref('sensor-data/data/' + last_id).once('value', data => {
