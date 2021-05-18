@@ -22,10 +22,7 @@ body {
  * Top bar
  */
 .top-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   height: 64px;
   background-color: #445A65;
   z-index: 20;
@@ -98,6 +95,201 @@ body {
   left: calc(50vw -  80px );
   font-size: 18px;
   color: rgba(255, 255, 255, 0.97);
+}
+#content {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: calc(100vh -  64px );
+}
+.view-box {
+  position: absolute;
+  left: 50%;
+  margin-left: -158px;
+  top: 50%;
+  margin-top: -25px;
+  display: inline-block;
+}
+.checkbox-selector {
+  display: inline-block;
+  margin: 0 5px;
+  width: 50px;
+  height: 50px;
+  background: #ddd;
+  border-radius: 100%;
+  position: relative;
+  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.checkbox-selector input {
+  opacity: 0;
+}
+.checkbox-selector .checkbox-selector-label {
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 40px;
+  color: #ddd;
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  transition: all .5s ease;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  background: #445A65;
+  -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.checkbox-selector input[type=checkbox]:checked + label {
+  background: #26ca28;
+}
+.side-bar {
+  flex: 1;
+  position: relative;
+  background: white;
+  border-right: 2px solid #445A65;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.side-bar-heading {
+  text-align: center;
+  color: #111;
+}
+.side-bar-label {
+  display: flex;
+  font-size: 18px;
+  margin: 0 15px 10px 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #999999;
+}
+.side-bar-label.extended {
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+.side-bar-label.extended:hover {
+  opacity: .8;
+}
+.side-bar-label.extended.active .extern-info {
+  visibility: visible;
+  height: auto;
+}
+.side-bar-label.extended .side-bar-label-ext {
+  flex: 1;
+  color: #747474;
+  text-align: center;
+}
+.side-bar-label.extended .extern-info {
+  flex-basis: 100%;
+  visibility: collapse;
+  height: 0;
+}
+.side-bar-label.extended .extern-info .extern-info-label {
+  display: flex;
+}
+.side-bar-label.extended .extern-info .extern-info-label .extern-info-label-space {
+  flex: 1;
+}
+.side-bar-label.extended .extern-info .extern-info-label .extern-info-label-name {
+  flex: 5;
+  color: #111;
+  font-weight: bold;
+}
+.side-bar-label.extended .extern-info .extern-info-label .extern-info-label-val {
+  flex: 5;
+  color: #333;
+  text-align: right;
+}
+.side-bar-label.text {
+  flex-direction: column;
+}
+.side-bar-label.text .side-bar-label-val {
+  text-align: left;
+}
+.side-bar-label .side-bar-label-name {
+  flex: 5;
+  color: #111;
+  font-weight: bold;
+}
+.side-bar-label .side-bar-label-val {
+  flex: 5;
+  color: #333;
+  text-align: right;
+}
+#map-wrapper {
+  flex: 4;
+  position: relative;
+}
+.air-probe {
+  width: 60px;
+  height: 60px;
+}
+.air-probe .air-probe-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.air-probe .air-probe-top {
+  width: 56px;
+  height: 36px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  margin-bottom: -1px;
+  text-align: center;
+}
+.air-probe .air-probe-top .air-probe-value {
+  line-height: 40px;
+  font-weight: 600;
+  font-size: 2em;
+}
+.air-probe.good .air-probe-top {
+  background: lime;
+}
+.air-probe.normal .air-probe-top {
+  background: yellow;
+}
+.air-probe.bad .air-probe-top {
+  background: red;
+}
+.air-probe .air-probe-bottom {
+  position: relative;
+  height: 20px;
+}
+.air-probe .air-probe-bottom .air-probe-stick {
+  z-index: 1;
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px;
+  background: #333;
+  left: 50%;
+  margin-left: -2px;
+}
+.air-probe .air-probe-bottom .air-probe-base {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  border: 2px solid #555;
+  border-radius: 8px;
+  bottom: -4px;
+  left: 50%;
+  margin-left: -6px;
+}
+/*
+ * Markers
+ */
+.marker-wrapper {
+  z-index: 104;
 }
 /*
  * Traffic Lights
@@ -262,29 +454,6 @@ body {
   font-weight: 400;
   position: absolute;
   color: rgba(0, 0, 0, 0.6);
-}
-/* Pit marker*/
-.pitMarcker {
-  display: block;
-  transition: all .4s ease;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-/*parkin marker*/
-.parkingMarcker {
-  display: block;
-  transition: all .4s ease;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
- 
 }
 /* TRUCK MARKER */
 .truckMarkerWraper {
@@ -467,4 +636,3 @@ body {
   top: 0;
   opacity: 0;
 }
-

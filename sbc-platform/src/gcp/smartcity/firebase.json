@@ -32,6 +32,15 @@
     },
     "pubsub": {
       "port": 8085
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
     }
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
   }
 }
