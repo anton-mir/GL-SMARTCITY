@@ -4,8 +4,9 @@
   "description": "Transport Tracker web display",
   "main": "index.js",
   "scripts": {
-    "build": "cp -r css/ images/ index.html js/ less/ public/",
-    "main": "gulp serve",
+    "build": "rm -rf publish && gulp build",
+    "serve": "gulp serve",
+    "deploy": "npm run build && firebase deploy",
     "prettier": "prettier --write --single-quote --bracket-spacing=false *.js js/*.js",
     "typings": "typings install",
     "check-updates": "npm-check-updates -u -a && npm install",

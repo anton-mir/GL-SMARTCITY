@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2017 Google Inc. All rights reserved.
  *
@@ -28,6 +29,31 @@ gulp.task('less-compile', () => {
     )
     .pipe(gulp.dest('./css'));
 });
+
+gulp.task('js-copy', () => {
+    return gulp.src('js/*.js')
+      .pipe(gulp.dest('publish/js'));
+});
+
+gulp.task('css-copy', () => {
+    return gulp.src('css/*.css')
+      .pipe(gulp.dest('publish/css'));
+});
+
+gulp.task('html-copy', () => {
+    return gulp.src('*.html')
+      .pipe(gulp.dest('publish'));
+});
+
+gulp.task('image-copy', () => {
+    return gulp.src('images/*')
+      .pipe(gulp.dest('publish/images'));
+});
+
+gulp.task(
+    'build',
+    ['less-compile', 'js-copy', 'css-copy', 'html-copy', 'image-copy']
+);
 
 gulp.task(
   'serve',

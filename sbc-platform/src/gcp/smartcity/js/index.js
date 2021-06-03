@@ -1,5 +1,5 @@
 const firebaseConfig = {
-
+// Add config here
 };
 
 const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) => {
