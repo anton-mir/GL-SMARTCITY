@@ -1,5 +1,5 @@
 const firebaseConfig = {
-// Add config here
+ // Config here
 };
 
 const createHTMLMarker = ({ OverlayView = google.maps.OverlayView,  ...args }) => {
@@ -757,7 +757,12 @@ function selectAirProbe(event) {
       if (typeof val.messageId !== 'undefined')
         document.getElementById('message_id-label-val').innerHTML = val.messageId.toString();
       if (typeof date !== 'undefined')
-        document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        {
+          minutes_converted = "";
+          if (date.getMinutes() < 10) minutes_converted = "0" + date.getMinutes();
+          else minutes_converted = date.getMinutes().toString();
+          document.getElementById('date-label-val').innerHTML = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + minutes_converted + ':' + date.getSeconds();
+        }
       if (typeof description !== 'undefined')
         document.getElementById('description-label-val').innerHTML = description.toString();
       if (typeof latitude !== 'undefined')
@@ -775,11 +780,20 @@ function selectAirProbe(event) {
       if (typeof val.measurements.pressure !== 'undefined')
         document.getElementById('pressure-label-val').innerHTML = val.measurements.pressure.toString() + '(hPa)';
       if (typeof val.measurements.tvoc !== 'undefined')
-        document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
+      {
+        if (val.measurements.tvoc <= 0) document.getElementById('tvoc-label-val').innerHTML = '0 (ppb)';
+        else document.getElementById('tvoc-label-val').innerHTML = val.measurements.tvoc.toString() + '(ppb)';
+      }
       if (typeof val.measurements.co2 !== 'undefined')
-        document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
+      {
+        if (val.measurements.co2 <= 0) document.getElementById('co2-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('co2-label-val').innerHTML = val.measurements.co2.toString() + '(ppm)';
+      }
       if (typeof val.measurements.co !== 'undefined')
-        document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
+      {
+        if (val.measurements.co <= 0) document.getElementById('co-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('co-label-val').innerHTML = val.measurements.co.toString() + '(ppm)';
+      }
       if (typeof val.measurements.co_temp !== 'undefined')
         document.getElementById('co-temp-label-val').innerHTML = val.measurements.co_temp.toString() + '(°C)';
       if (typeof val.measurements.co_hum !== 'undefined')
@@ -787,7 +801,10 @@ function selectAirProbe(event) {
       if (typeof val.measurements.co_err !== 'undefined')
         document.getElementById('co-error-label-val').innerHTML = val.measurements.co_err.toString();
       if (typeof val.measurements.no2 !== 'undefined')
-        document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
+      {
+        if (val.measurements.no2 <= 0) document.getElementById('no2-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('no2-label-val').innerHTML = val.measurements.no2.toString() + '(ppm)';
+      }
       if (typeof val.measurements.no2_temp !== 'undefined')
         document.getElementById('no2-temp-label-val').innerHTML = val.measurements.no2_temp.toString() + '(°C)';
       if (typeof val.measurements.no2_hum !== 'undefined')
@@ -795,7 +812,10 @@ function selectAirProbe(event) {
       if (typeof val.measurements.no2_err !== 'undefined')
         document.getElementById('no2-error-label-val').innerHTML = val.measurements.no2_err.toString();
       if (typeof val.measurements.so2 !== 'undefined')
-        document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
+      {
+        if (val.measurements.so2 <= 0) document.getElementById('so2-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('so2-label-val').innerHTML = val.measurements.so2.toString() + '(ppm)';
+      }
       if (typeof val.measurements.so2_temp !== 'undefined')
         document.getElementById('so2-temp-label-val').innerHTML = val.measurements.so2_temp.toString() + '(°C)';
       if (typeof val.measurements.so2_hum !== 'undefined')
@@ -803,7 +823,10 @@ function selectAirProbe(event) {
       if (typeof val.measurements.so2_err !== 'undefined')
         document.getElementById('so2-error-label-val').innerHTML = val.measurements.so2_err.toString();
       if (typeof val.measurements.o3 !== 'undefined')
-        document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
+      {
+        if (val.measurements.o3 <= 0) document.getElementById('o3-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('o3-label-val').innerHTML = val.measurements.o3.toString() + '(ppm)';
+      }
       if (typeof val.measurements.o3_temp !== 'undefined')
         document.getElementById('o3-temp-label-val').innerHTML = val.measurements.o3_temp.toString() + '(°C)';
       if (typeof val.measurements.o3_hum !== 'undefined')
@@ -811,7 +834,10 @@ function selectAirProbe(event) {
       if (typeof val.measurements.o3_err !== 'undefined')
         document.getElementById('o3-error-label-val').innerHTML = val.measurements.o3_err.toString();
       if (typeof val.measurements.hcho !== 'undefined')
-        document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
+      {
+        if (val.measurements.hcho <= 0) document.getElementById('hcho-label-val').innerHTML = '0 (ppm)';
+        else document.getElementById('hcho-label-val').innerHTML = val.measurements.hcho.toString() + '(ppm)';
+      }
       if (typeof val.measurements.pm2_5 !== 'undefined')
         document.getElementById('pm2_5-label-val').innerHTML = val.measurements.pm2_5.toString() + '(μg/m3)';
       if (typeof val.measurements.pm10 !== 'undefined')
