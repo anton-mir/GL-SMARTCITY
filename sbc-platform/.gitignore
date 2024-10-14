@@ -7,4 +7,5 @@ cmake-build-debug/
 lib/gtest/build/
 logs/
 lib/gpsd/*
+.vscode
 

@@ -6,6 +6,8 @@
 #include <QJsonArray>
 #include <QVariant>
 
+#include <string>
+
 #include <sys/resource.h>
 
 #include "mqttMsgParamsItem.h"
@@ -591,7 +593,8 @@ HubConfigManager::getSbcIdByMqttId(char *mqttId, int *result)
 
     for (; it != objMqttParams.end(); it++)
     {
-        if ((*it)->deviceId->compare(mqttId) == 0)
+        std::string deviceId_name = *(*it)->deviceId;
+        if (deviceId_name.compare(mqttId) == 0)
             break;
     }
     if (it == objMqttParams.end())

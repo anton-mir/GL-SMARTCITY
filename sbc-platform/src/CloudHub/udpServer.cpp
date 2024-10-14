@@ -59,7 +59,7 @@ UdpServer::create(unsigned port, shared_ptr<ClusterDataProcessor> dataProcessor)
 
 int UdpServer::runInstance(unsigned port)
 {
-    struct sockaddr_in servaddr;
+    // struct sockaddr_in servaddr;
     struct sockaddr_in6 servaddr6;
 
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
