@@ -34,7 +34,7 @@ libqt5svg5-dev libtool libxml2-dev make pkg-config protobuf-compiler \
 subversion libgoogle-glog-dev qtbase5-dev libqt5gui5 qttools5-dev-tools \
 qttools5-dev qtdeclarative5-dev qtlocation5-dev qtpositioning5-dev \
 qt5-default qml-module-qtquick-* qml-module-qtgraphicaleffects \
-qml-module-qtpositioning libboost-all-dev libcurl4-openssl-dev \
+qml-module-qtpositioning libboost-all-dev libcurl4-gnutls-dev \
 libssl-dev libcanberra-gtk* gpsd-clients libjansson-dev libftdi-dev \
 fluid libjsoncpp-dev libfltk1.3* fftw3 libgflags-dev libncurses5-dev libtinfo-dev \
 scons python-gi python-gi-cairo g++ python-gobject libgtk-3-dev pps-tools
